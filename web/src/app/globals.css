@@ -680,3 +680,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .balance-chip { display: none; }
   .topbar-actions .link-button { padding: 0 6px; }
 }
+
+/* ledger edges align with the section gutter */
+.ledger th:first-child, .ledger td:first-child { padding-left: 28px; }
+.ledger th:last-child, .ledger td:last-child { padding-right: 28px; }
+.section > .label[style] { padding-left: 28px; }
+@media (max-width: 760px) {
+  .ledger th:first-child, .ledger td:first-child { padding-left: 16px; }
+  .ledger th:last-child, .ledger td:last-child { padding-right: 16px; }
+}
+
+/* phone: keep the top bar inside the viewport */
+.topbar > *, .board-header > * { min-width: 0; }
+@media (max-width: 760px) {
+  .balance-chip.network { display: none; }
+  .balance-chip { font-size: 12px; }
+  .board-tools { width: 100%; }
+}

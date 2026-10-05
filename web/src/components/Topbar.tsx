@@ -47,7 +47,7 @@ function BalanceChip() {
     );
   }
   return (
-    <span className="balance-chip" title="Network">
+    <span className="balance-chip network" title="Network">
       {activeChain.name}
     </span>
   );

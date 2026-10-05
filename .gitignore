@@ -1,0 +1,21 @@
+node_modules/
+.env
+.env.*
+!.env.example
+# hardhat
+contracts/cache/
+contracts/artifacts/
+contracts/typechain-types/
+contracts/coverage/
+contracts/coverage.json
+# next
+web/.next/
+web/out/
+web/next-env.d.ts
+*.tsbuildinfo
+# resolver
+resolver/dist/
+resolver/state.json
+# os
+.DS_Store
+Thumbs.db

@@ -9,7 +9,8 @@
     "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
     "deploy:testnet": "hardhat run scripts/deploy.ts --network botTestnet",
     "deploy:mainnet": "hardhat run scripts/deploy.ts --network botMainnet",
-    "export-abi": "hardhat run scripts/export-abi.ts"
+    "export-abi": "hardhat run scripts/export-abi.ts",
+    "seed:local": "hardhat run scripts/seed-local.ts --network localhost"
   },
   "license": "MIT",
   "description": "STAKE prediction market contracts for BOT Chain",

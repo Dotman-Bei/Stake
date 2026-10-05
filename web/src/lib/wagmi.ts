@@ -1,6 +1,6 @@
 import { createConfig, http } from "wagmi";
 import type { Chain } from "viem";
-import { injected } from "wagmi/connectors";
+import { injected } from "@wagmi/core";
 import { activeChain, rpcUrl } from "./chains";
 
 /**

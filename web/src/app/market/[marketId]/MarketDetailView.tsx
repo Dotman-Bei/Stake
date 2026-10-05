@@ -108,7 +108,19 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
             <dt>Source</dt><dd>{m.resolutionSource}</dd>
             <dt>Parameters</dt><dd><code>{params}</code></dd>
             {evidence && "observed" in evidence && (
-              <><dt>Observed</dt><dd className="mono-num">{String(evidence.observed)} {String(evidence.op ?? "")} {String(evidence.threshold ?? "")}{evidence.ref ? ` · ${String(evidence.ref)}` : ""}</dd></>
+              <>
+                <dt>Observed</dt>
+                <dd className="mono-num">{String(evidence.observed)}{evidence.ref ? ` · ${String(evidence.ref)}` : ""}</dd>
+                {evidence.op !== undefined && !("invalid" in evidence) && (
+                  <>
+                    <dt>Condition</dt>
+                    <dd>
+                      value {String(evidence.op)} {String(evidence.threshold)}:{" "}
+                      <span className={m.outcome === Outcome.Yes ? "lime" : ""}>{m.outcome === Outcome.Yes ? "met → YES" : "not met → NO"}</span>
+                    </dd>
+                  </>
+                )}
+              </>
             )}
             {m.resolutionEvidence && (!evidence || !("observed" in evidence) || "invalid" in evidence) && (
               <><dt>Evidence</dt><dd><code>{m.resolutionEvidence}</code></dd></>

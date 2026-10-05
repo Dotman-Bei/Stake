@@ -19,3 +19,5 @@ resolver/state.json
 # os
 .DS_Store
 Thumbs.db
+# local hardhat deployments
+contracts/deployments/31337.json

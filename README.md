@@ -14,8 +14,20 @@ STAKE runs short-duration YES/NO markets on BOT price, crypto prices and measura
 | M2 Market engine: creation, staking, positions, state transitions, tests | **Done** (38 contract tests) |
 | M3 Resolution and payout: resolver service, settlement, payout, claims, security and failure-path tests | **Done** (12 resolver tests) |
 | M4 Frontend: Home, Markets, Market Detail, Leaderboard, Profile, stake and claim flows | **Done**, verified end to end on a local chain |
-| M5 Testnet, then mainnet deployment and contract verification | **Not started.** Needs a funded deployer key ([plan below](#deployment-plan-testnet--mainnet)) |
+| M5 Testnet deployment and contract verification | **Testnet: deployed and verified** (see below). Mainnet: not yet ([plan below](#deployment-plan-testnet--mainnet)) |
 | M6 Real users | **Not started.** No usage has been claimed or simulated on BOT Chain |
+
+### BOT Chain testnet deployment
+
+| | |
+|---|---|
+| Contract | [`0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779`](https://scan.bohr.life/address/0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779#code) (source verified) |
+| Network | BOT Chain testnet, chain 968 |
+| Deploy block | 25807866 ([tx](https://scan.bohr.life/tx/0x45c8f30d06636f96d3b026ce61675f4462abd04d7e14bdab44df71d04a8e3629)) |
+| Owner / creator / resolver / treasury | `0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA` (single wallet for testnet) |
+| Fee | 1% of the losing pool |
+
+The full record is in [`contracts/deployments/968.json`](contracts/deployments/968.json).
 
 ---
 
@@ -206,7 +218,7 @@ Import a Hardhat test account into your browser wallet and add the local network
 
 ## Known limitations
 
-- **Not deployed yet.** There is no testnet or mainnet address until the plan above is run with funded keys.
+- **Testnet only so far.** Mainnet deployment follows the plan above once testnet usage is stable.
 - **Trusted resolver.** See the threat model.
 - **The BOT price source is the explorer's `coin_price`.** It is the most BOT-native feed available. A DEX-pool, at-block price adapter would be stronger and is the next resolver improvement.
 - **CoinGecko and explorer values are point-in-time samples**, not historical candles. Exchange APIs (Binance, Coinbase, Kraken) were unreachable from the build environment, so they were not used.

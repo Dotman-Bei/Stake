@@ -12,6 +12,14 @@ function required(name: string): string {
   return v;
 }
 
+/** Accepts keys with or without the 0x prefix (wallet exports differ). */
+function normalizeKey(raw: string): Hex {
+  const k = raw.trim().replace(/^["']|["']$/g, "");
+  const hex = k.startsWith("0x") ? k : `0x${k}`;
+  if (!/^0x[0-9a-fA-F]{64}$/.test(hex)) throw new Error("RESOLVER_PRIVATE_KEY must be 64 hex characters");
+  return hex as Hex;
+}
+
 const chainId = Number(required("STAKE_CHAIN_ID"));
 const rpcUrl = required("STAKE_RPC_URL");
 
@@ -46,7 +54,7 @@ export const config = {
   }),
   rpcUrl,
   contract: contractAddress(),
-  privateKey: required("RESOLVER_PRIVATE_KEY") as Hex,
+  privateKey: normalizeKey(required("RESOLVER_PRIVATE_KEY")),
   pollSeconds: Number(process.env.POLL_SECONDS ?? 15),
   /** Resolve INVALID this many seconds before the contract's 3-day grace window ends. */
   giveUpMarginSeconds: Number(process.env.GIVE_UP_MARGIN_SECONDS ?? 3600),

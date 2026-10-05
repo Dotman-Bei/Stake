@@ -1,0 +1,23 @@
+{
+  "name": "stake-resolver",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "once": "tsx src/index.ts --once",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "MIT",
+  "description": "STAKE resolver service: settles markets on BOT Chain from their declared sources",
+  "dependencies": {
+    "dotenv": "^18.0.5",
+    "viem": "^2.57.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "~5.8"
+  },
+  "private": true,
+  "type": "module"
+}

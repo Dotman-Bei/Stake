@@ -78,7 +78,7 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
           </div>
           <div>
             <div className="label">YES pool</div>
-            <div className="value mono-num lime">{botLabel(m.totalYes)}</div>
+            <div className="value mono-num accent-text">{botLabel(m.totalYes)}</div>
             <div className="sub">{pct(total(m) ? yes : 0)} · {m.yesCount} wallets</div>
           </div>
           <div>
@@ -116,7 +116,7 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
                     <dt>Condition</dt>
                     <dd>
                       value {String(evidence.op)} {String(evidence.threshold)}:{" "}
-                      <span className={m.outcome === Outcome.Yes ? "lime" : ""}>{m.outcome === Outcome.Yes ? "met → YES" : "not met → NO"}</span>
+                      <span className={m.outcome === Outcome.Yes ? "accent-text" : ""}>{m.outcome === Outcome.Yes ? "met → YES" : "not met → NO"}</span>
                     </dd>
                   </>
                 )}

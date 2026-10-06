@@ -138,7 +138,7 @@ export function ActionPanel({ market, now, claimTx }: { market: Market; now: num
             </div>
 
             <dl className="quote">
-              <div><dt>If {chosen === Side.No ? "NO" : "YES"} wins</dt><dd className="lime mono-num">{quote ? botLabel(quote, 4) : "—"}</dd></div>
+              <div><dt>If {chosen === Side.No ? "NO" : "YES"} wins</dt><dd className="accent-text mono-num">{quote ? botLabel(quote, 4) : "—"}</dd></div>
               <div><dt>Payout multiple</dt><dd className="mono-num">{quote && parsed ? multiple(quote, parsed) : "—"}</dd></div>
               <div><dt>Limits</dt><dd className="mono-num">{bot(market.minStake, 4)} – {bot(market.maxStake)} BOT</dd></div>
               <div><dt>Fee</dt><dd>{market.feeBps / 100}% of losing pool</dd></div>

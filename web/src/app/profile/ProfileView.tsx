@@ -139,7 +139,7 @@ export function ProfileView() {
         </div>
         <div>
           <div className="label">Claimable now</div>
-          <div className="value mono-num lime">{botLabel(claimableTotal, 4)}</div>
+          <div className="value mono-num accent-text">{botLabel(claimableTotal, 4)}</div>
           <div className="sub">verified on-chain</div>
         </div>
       </section>
@@ -172,7 +172,7 @@ export function ProfileView() {
         <div className="ledger-empty">Position history is unavailable right now (indexer offline). Claimable amounts above come straight from the contract.</div>
       ) : !user || user.positions.length === 0 ? (
         <div className="ledger-empty">
-          No positions yet. <Link href="/markets" className="lime">Browse markets</Link>
+          No positions yet. <Link href="/markets" className="accent-text">Browse markets</Link>
         </div>
       ) : (
         <div className="ledger-wrap">
@@ -194,7 +194,7 @@ export function ProfileView() {
                     <td className="num">{p.payout > 0n ? `${bot(p.payout, 4)} BOT` : "—"}</td>
                     <td>
                       {p.claimed ? (claimLink ? <a className="ext" href={claimLink} target="_blank" rel="noreferrer">Claimed</a> : "Claimed")
-                        : p.result === "won" || p.result === "refund" ? <span className="lime">Unclaimed</span> : "—"}
+                        : p.result === "won" || p.result === "refund" ? <span className="accent-text">Unclaimed</span> : "—"}
                     </td>
                     <td>{posLink ? <a className="ext" href={posLink} target="_blank" rel="noreferrer">{shortAddress(p.lastTx)}</a> : shortAddress(p.lastTx)}</td>
                   </tr>

@@ -80,7 +80,7 @@ export function HowItWorksModal({ open, onClose }: { open: boolean; onClose: () 
           <div className="mock-side right" />
           <div className="mock-card">
             <div className="mock-top">
-              <span className="lime">{s.signal}</span>
+              <span className="accent-text">{s.signal}</span>
               <span className="muted">{s.metric}</span>
             </div>
             <div className="mock-body">
@@ -93,7 +93,7 @@ export function HowItWorksModal({ open, onClose }: { open: boolean; onClose: () 
               <span>48 BOT</span><span>1 hour</span><span>BOT Chain</span>
             </div>
             <div className="mock-signal">
-              <span className="lime">{step === 3 ? "RESOLVED YES" : "YES LEADS"}</span>
+              <span className="accent-text">{step === 3 ? "RESOLVED YES" : "YES LEADS"}</span>
               <span className="muted">1.4x</span>
             </div>
           </div>

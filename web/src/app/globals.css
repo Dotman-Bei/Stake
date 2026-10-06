@@ -22,9 +22,9 @@
   --rule-strong: rgba(240, 240, 240, 0.22);
 
   /* the accent */
-  --accent:        #d4ff3e;
-  --accent-dim:    rgba(212, 255, 62, 0.08);
-  --accent-border: rgba(212, 255, 62, 0.28);
+  --accent:        #5cd0ff;
+  --accent-dim:    rgba(92, 208, 255, 0.08);
+  --accent-border: rgba(92, 208, 255, 0.28);
 
   /* status + deep colours */
   --danger:  #f27575;
@@ -76,7 +76,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .label {
   font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--g600);
 }
-.lime { color: var(--accent); }
+.accent-text { color: var(--accent); }
 .danger { color: var(--danger); }
 .warning { color: var(--warning); }
 .muted { color: var(--g400); }
@@ -152,7 +152,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   color: var(--accent); font-weight: 600; white-space: nowrap;
   transition: background var(--ease), border-color var(--ease);
 }
-.wallet-button:hover { background: rgba(212, 255, 62, .14); }
+.wallet-button:hover { background: rgba(92, 208, 255, .14); }
 .wallet-button.warn { color: var(--warning); border-color: rgba(240, 193, 95, .4); background: rgba(240, 193, 95, .08); }
 .wallet-menu {
   position: absolute; right: 0; top: calc(100% + 8px); z-index: 40;
@@ -483,7 +483,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .quote > div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 13px; }
 .quote dt { color: var(--g200); margin: 0; }
 .quote dd { margin: 0; color: var(--white); text-align: right; }
-.quote dd.lime { color: var(--accent); }
+.quote dd.accent-text { color: var(--accent); }
 
 .notice { padding: 12px 14px; font-size: 13px; border: 1px solid var(--rule-strong); color: var(--g100); background: rgba(0, 0, 0, .2); }
 .notice.ok { border-color: var(--accent-border); color: var(--accent); }
@@ -552,14 +552,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .mock-side.right { right: -110px; }
 .mock-card { position: relative; width: 210px; background: var(--bg); border: 1px solid var(--accent-border); }
 .mock-card .mock-top { display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px; font-size: 11px; border-bottom: 1px solid var(--rule); }
-.mock-card .mock-top .lime { font-weight: 600; }
+.mock-card .mock-top .accent-text { font-weight: 600; }
 .mock-card .mock-body { display: grid; gap: 12px; padding: 12px; background: #0f1620; }
 .mock-card .mock-title { font-size: 12px; font-weight: 600; line-height: 1.2; color: var(--white); }
 .mock-card .mock-tokens { display: flex; flex-wrap: wrap; gap: 4px; }
 .mock-card .mock-tokens span { font-size: 10px; padding: 2px 6px; border: 1px solid var(--rule); color: var(--g100); }
 .mock-card .mock-facts { display: grid; grid-template-columns: repeat(3, 1fr); padding: 10px 12px; font-size: 10px; color: var(--g200); }
 .mock-card .mock-signal { display: flex; justify-content: space-between; padding: 10px 12px; font-size: 11px; border-top: 1px solid var(--rule); }
-.mock-card .mock-signal .lime { font-weight: 600; }
+.mock-card .mock-signal .accent-text { font-weight: 600; }
 .how-body { display: flex; flex-direction: column; gap: 18px; padding: 36px 28px 24px; }
 .how-counter { font-size: 13px; color: var(--g400); }
 .how-dashes { display: flex; gap: 6px; }

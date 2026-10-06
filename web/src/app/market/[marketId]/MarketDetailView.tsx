@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { ActionPanel } from "@/components/ActionPanel";
-import { FallbackVisual, StatusTag } from "@/components/MarketCard";
+import { MarketVisual, StatusTag } from "@/components/MarketCard";
 import { EmptyState } from "@/components/MarketBoard";
 import { ArrowLeftIcon } from "@/components/Icons";
 import { NotConfiguredError, useActivity, useMarket, useNow } from "@/hooks/useStake";
@@ -59,7 +59,7 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
       <div className="detail-main">
         <Back />
         <div className="detail-hero">
-          <FallbackVisual market={m} large />
+          <MarketVisual market={m} large />
           <div style={{ minWidth: 0 }}>
             <div className="card-tags">
               <span className="tag">{TYPE_LABEL[m.marketType]}</span>

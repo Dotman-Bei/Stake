@@ -4,11 +4,26 @@ import {
   type Market, type Status,
 } from "@/lib/markets";
 import { bot, initials, multiple, pct, timeLeft } from "@/lib/format";
+import { imageFor } from "@/lib/marketImage";
 import { ClockIcon, PoolIcon, StakeMark, UsersIcon } from "./Icons";
 
 const AVATAR_FILLS = ["#384bff", "#006b52", "#6f63ff", "#7a3d18", "#111"];
 
-export function FallbackVisual({ market, large = false }: { market: Market; large?: boolean }) {
+/** Square market image, or the four-bar fallback when the market has none (frontend.md §6.5). */
+export function MarketVisual({ market, large = false }: { market: Market; large?: boolean }) {
+  const image = imageFor(market);
+  if (image) {
+    return (
+      <div className={`market-visual${large ? " lg" : ""}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image.src} alt={image.alt} loading="lazy" />
+      </div>
+    );
+  }
+  return <FallbackVisual market={market} large={large} />;
+}
+
+function FallbackVisual({ market, large = false }: { market: Market; large?: boolean }) {
   const bars = barsFor(`${market.id}:${market.question}`);
   return (
     <div className={`fallback-visual${large ? " lg" : ""}`} aria-hidden="true">
@@ -49,6 +64,7 @@ export function MarketCard({ market, now, participants, mySide }: {
   const yes = yesPercent(market);
   const shown = participants.slice(0, 5);
   const predictors = market.yesCount + market.noCount;
+  const image = imageFor(market);
 
   return (
     <article className="market-card">
@@ -60,7 +76,7 @@ export function MarketCard({ market, now, participants, mySide }: {
       </div>
 
       <div className={`card-body tone-${toneFor(market.question)}`}>
-        <FallbackVisual market={market} />
+        <MarketVisual market={market} />
         <h3 className="card-title">
           <Link href={`/market/${market.id}`}>{market.question}</Link>
         </h3>
@@ -77,7 +93,12 @@ export function MarketCard({ market, now, participants, mySide }: {
         </div>
         <div className="participants">
           <div className="avatars">
-            <span className="avatar mark"><StakeMark /></span>
+            {image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="avatar market-avatar" src={image.src} alt="" />
+            ) : (
+              <span className="avatar mark"><StakeMark /></span>
+            )}
             {shown.map((a, i) => (
               <span key={a} className="avatar" style={{ background: AVATAR_FILLS[i % AVATAR_FILLS.length] }} title={a}>{initials(a)}</span>
             ))}

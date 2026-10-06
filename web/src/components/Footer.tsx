@@ -2,8 +2,6 @@ import Link from "next/link";
 import { DOCS_URL, FAUCET_URL, activeChain, addressUrl, explorerUrl, stakeAddress } from "@/lib/chains";
 import { StakeMark } from "./Icons";
 
-const repoUrl = process.env.NEXT_PUBLIC_REPO_URL;
-
 export function Footer() {
   const contractLink = stakeAddress ? addressUrl(stakeAddress) : null;
   return (
@@ -40,9 +38,7 @@ export function Footer() {
       <div>
         <h3>Community</h3>
         <ul>
-          {repoUrl && <li><a className="ext" href={repoUrl} target="_blank" rel="noreferrer">GitHub</a></li>}
           <li><a className="ext" href="https://t.me/BOTChainNetwork" target="_blank" rel="noreferrer">BOT Chain Telegram</a></li>
-          <li><Link href="/profile">My profile</Link></li>
         </ul>
       </div>
     </footer>

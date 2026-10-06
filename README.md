@@ -188,7 +188,7 @@ Import a Hardhat test account into your browser wallet and add the local network
    ```
 4. **Open markets:** `npx hardhat stake:create --network botTestnet --template bot-price --threshold 12.5 --minutes 60`, or use **Create market** in the UI with the creator wallet.
 5. **Run the resolver** (`resolver/.env`) on an always-on host (any small VM or container) with a process supervisor.
-6. **Deploy the frontend** (e.g. Vercel, root `web/`) with `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK` and `NEXT_PUBLIC_REPO_URL`.
+6. **Deploy the frontend** (e.g. Vercel, root `web/`) with `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK`.
 7. **Recruit 10+ real testers** (M2) and track activity through `/api/metrics`. Fix what they hit.
 8. **Mainnet:** repeat steps 3–6 with `botMainnet`. Start with low `maxStake` limits and raise them as usage proves stable.
 

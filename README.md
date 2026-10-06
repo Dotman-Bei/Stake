@@ -13,11 +13,13 @@ STAKE runs short-duration YES/NO markets on BOT price, crypto prices and measura
 | M1 Foundation: repo, contracts, frontend, verified BOT Chain config, wallet connection, deploy pipeline, tests | **Done** |
 | M2 Market engine: creation, staking, positions, state transitions, tests | **Done** (38 contract tests) |
 | M3 Resolution and payout: resolver service, settlement, payout, claims, security and failure-path tests | **Done** (12 resolver tests) |
-| M4 Frontend: Home, Markets, Market Detail, Leaderboard, Profile, stake and claim flows | **Done**, verified end to end on a local chain |
+| M4 Frontend: Home, Markets, Market Detail, Leaderboard, Profile, stake and claim flows | **Done**, verified end to end on a local chain; [deployed on Vercel](https://stake-nine-umber.vercel.app) |
 | M5 Testnet deployment and contract verification | **Testnet: deployed and verified** (see below). Mainnet: not yet ([plan below](#deployment-plan-testnet--mainnet)) |
 | M6 Real users | **Not started.** No usage has been claimed or simulated on BOT Chain |
 
 ### BOT Chain testnet deployment
+
+**Live app: https://stake-nine-umber.vercel.app** (BOT Chain testnet; get test BOT from the [faucet](https://faucet.botchain.ai/basic))
 
 | | |
 |---|---|

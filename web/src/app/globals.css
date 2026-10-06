@@ -29,9 +29,10 @@
   /* status + deep colours */
   --danger:  #f27575;
   --warning: #f0c15f;
-  --teal:    #003f3d;
-  --teal-card: #042f2e;
-  --teal-black: #0d1a15;
+  /* second colour: deep navy family paired with the light-blue accent (§7) */
+  --deep:       #05253d;
+  --deep-card:  #072236;
+  --deep-black: #0a1622;
 
   /* layout: sticky offsets come from one variable (§5) */
   --topbar-h: 88px;
@@ -442,7 +443,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .detail-rail { min-width: 0; }
 .rail-sticky { position: sticky; top: calc(var(--topbar-h) + 0px); }
-.action-card { background: var(--teal-card); border-bottom: 1px solid var(--rule); }
+.action-card { background: var(--deep-card); border-bottom: 1px solid var(--rule); }
 .stepper { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rule); }
 .stepper span {
   display: grid; place-items: center; min-height: 48px;
@@ -540,7 +541,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   position: relative; overflow: hidden;
   display: grid; place-items: center;
   min-height: 420px; padding: 24px;
-  background: var(--teal-black);
+  background: var(--deep-black);
   border-right: 1px solid var(--rule);
 }
 .mock-side {
@@ -573,7 +574,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .footer {
   display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
   min-height: 340px;
-  background: var(--teal);
+  background: var(--deep);
   border-top: 1px solid var(--rule);
 }
 .footer > div { padding: 36px 28px; border-right: 1px solid var(--rule); }

@@ -16,6 +16,7 @@ const BOT_DEX: MarketImage = { src: "/markets/bot-dex.png", alt: "BOT Chain toke
 const COINS: Record<string, MarketImage> = {
   bitcoin: { src: "/markets/btc.png", alt: "Bitcoin" },
   ethereum: { src: "/markets/eth.png", alt: "Ethereum" },
+  solana: { src: "/markets/sol.png", alt: "Solana" },
 };
 
 /** WBOT on BOT Chain mainnet (official docs). Supply markets on it show the BOT mark. */

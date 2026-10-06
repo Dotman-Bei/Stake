@@ -11,6 +11,7 @@ test("maps each market to an ecosystem or coin image", () => {
   assert.equal(imageFor(m(0, { kind: "price", feed: "blockscout" }))?.src, "/markets/bot-token.png");
   assert.equal(imageFor(m(1, { kind: "price", feed: "coingecko", id: "bitcoin" }))?.src, "/markets/btc.png");
   assert.equal(imageFor(m(1, { kind: "price", feed: "coingecko", id: "ethereum" }))?.src, "/markets/eth.png");
+  assert.equal(imageFor(m(1, { kind: "price", feed: "coingecko", id: "solana" }))?.src, "/markets/sol.png");
   assert.equal(imageFor(m(2, { kind: "erc20Supply", token: "0xD5452816194a3784dBa983426cCe7c122F4abd30" }))?.src, "/markets/bot-token.png");
   assert.equal(imageFor(m(2, { kind: "erc20Supply", token: "0x0000000000000000000000000000000000000001" }))?.src, "/markets/bot-dex.png");
   assert.equal(imageFor(m(2, { kind: "explorerStat" }))?.src, "/markets/bot-data.png");

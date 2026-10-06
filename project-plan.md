@@ -1,6 +1,6 @@
 # project-plan.md — milestones, status and backlog
 
-Last updated: 2026-10-06. Milestones follow `STAKE_PRD.md` §25. Status here must reflect reality: never mark
+Last updated: 2026-10-06 (re-verified: all tests and the build pass). Milestones follow `STAKE_PRD.md` §25. Status here must reflect reality: never mark
 something done that wasn't verified.
 
 ## Milestones
@@ -29,7 +29,7 @@ something done that wasn't verified.
 - [x] Tests for critical contract logic
 - [x] README complete; threat model documented
 - [ ] Demo video (2–4 min)
-- [x] Public repo with real commit history (67+ commits; confirm the repo is public)
+- [x] Public repo with real commit history (74 commits; the repo is currently **private** and must be made public)
 - [ ] Mainnet deployment, or a credible plan (plan exists in README; not executed)
 - [ ] Initial real-user testing
 
@@ -45,4 +45,5 @@ something done that wasn't verified.
 8. **Demo video, build log, docs** (PRD §4.8).
 9. **Stronger BOT price source:** a DEX-pool at-block price adapter instead of the explorer `coin_price`.
 10. **Mainnet:** re-verify config, separate keys, multisig owner, low `maxStake`, deploy, verify, point Vercel at mainnet.
-11. Later phases (PRD §23): community markets, more metrics, recurring micro-markets, reputation. Only after usage proves demand.
+11. **Dependency audit:** `npm ci` in `web/` reports 25 vulnerabilities (23 moderate, 2 high) as of 2026-10-06. Review `npm audit` before mainnet. Don't run `npm audit fix --force` blindly: it can bump Next or wagmi majors.
+12. Later phases (PRD §23): community markets, more metrics, recurring micro-markets, reputation. Only after usage proves demand.

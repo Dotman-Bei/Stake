@@ -1,6 +1,6 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-06 (about 03:00 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-06 (about 03:30 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
@@ -14,7 +14,8 @@ typechecks). The contract is **deployed and verified on BOT Chain testnet** at
 `0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779` (chain 968). The frontend is **live on Vercel** at
 https://stake-nine-umber.vercel.app. **No real user has staked yet.** The last user-driven work was a new logo
 (split S), a light-blue accent, a navy second colour, market images, and a responsiveness/performance pass. All
-of it is committed and pushed. These five context docs were added in this session.
+of it is committed and pushed. The five context docs were added on 2026-10-06 and then **re-verified against the
+code and live chain** in a second session on a Linux server (see §4).
 
 ## 2. What is running right now (and where)
 
@@ -22,6 +23,7 @@ of it is committed and pushed. These five context docs were added in this sessio
 |---|---|---|
 | Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x8E5e…F779`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=25807866` |
 | **Resolver** | **The user's Windows PC only**, started as a background process by the previous agent session (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Stops if that session or the PC stops.** Not yet moved to a server. |
+| Repo clone (no secrets) | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22). Used for the 2026-10-06 verification session. | No `.env` files and no resolver here. A possible VPS for the resolver; **ask the user** before using it as one. |
 | Local dev server | The user's PC, `http://localhost:3000` (`web/.env.local` points at testnet) | Optional; not needed now that Vercel is live |
 
 ## 3. Testnet markets (all 0.01–10 tBOT, 1% fee)
@@ -38,16 +40,24 @@ of it is committed and pushed. These five context docs were added in this sessio
 
 ## 4. Where we stopped exactly
 
-The last open question to the user was about **moving to a VPS**. The proposed plan:
+**Latest session (2026-10-06 ~03:15–03:30 UTC, Linux server):** the user asked to make the repo portable between AI
+agents. The five docs already existed, so this session **verified** them instead of rewriting:
+- Tests re-run from a clean `npm ci`: contracts **38 passing**, resolver typecheck clean and **12/12**, web **13/13**, and `next build` OK.
+- Live chain matches the docs. `eth_chainId` = 968. `marketCount` = 10. `/api/metrics`: 10 created, 4 refunded, 0 positions, 0 predictors.
+- Only `memory.md`, `handoff.md` and `project-plan.md` were edited. No application code was touched.
+- **Push from the server is blocked:** none of its SSH keys can access `Dotman-Bei/Stake`. A new key, `~/.ssh/id_stake_ed25519`, was generated. Once the user adds its `.pub` as a deploy key with **write access** (GitHub → repo Settings → Deploy keys), run the push command in `memory.md` → Gotchas. The commit exists locally until then.
+
+**Still open from the session before:** the question about **moving to a VPS**. The proposed plan:
 - Run the resolver on a VPS (Ubuntu 24.04, Node 22, systemd or pm2, auto-restart, NTP-synced clock).
 - Optionally host the web app there too (fixes the indexer cold-start issue). Otherwise keep it on Vercel.
 - Move the resolver role to a dedicated low-balance wallet, so the owner key never sits on a server.
 
-**The user has not answered yet:** (a) which VPS provider, and (b) whether the website stays on Vercel. The user
-then asked for these context docs, which are now done.
+**The user has not answered yet:** (a) which VPS provider, and (b) whether the website stays on Vercel. The Linux
+server above already meets the requirements and may be the answer to (a). Confirm with the user.
 
 ## 5. Next steps (do in order)
 
+0. **Push the local doc commit** once the deploy key is added (see §4). Check with `git status -sb` (it shows `ahead 1`).
 1. **Ask or confirm the VPS answers above**, then prepare in-repo:
    - `deploy/vps/setup.sh` (installs Node 22 and git, clones, `npm ci` in `resolver/`)
    - `deploy/vps/stake-resolver.service` (systemd, `Restart=always`)
@@ -75,6 +85,10 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 
 ## 7. Session log (newest first)
 
+- **2026-10-06 (Linux server, ~03:30 UTC):**
+  - Verified the context docs against code, tests and the live chain.
+  - Recorded the two-machine setup and the push gotcha.
+  - Created the deploy key `id_stake_ed25519` (not yet added on GitHub).
 - **2026-10-06:**
   - Added the portable context docs.
   - Deployed to Vercel and linked it in the README.

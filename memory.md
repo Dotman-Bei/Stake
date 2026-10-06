@@ -36,7 +36,9 @@ delete entries that become wrong. Last updated: 2026-10-06.
 - **Sampled-feed markets refund if the resolver is late (>600 s after close).** This happened to testnet markets #0–#3 while the PC was asleep. It's working as designed, but schedule closes when the resolver host is up.
 - **The `address-txs` template uses the nonce**, which only counts transactions an EOA sends. For contracts it only counts contract creations.
 - **Hardhat `stake:create --minutes`** is relative to the latest block. Prefer `--close-at 2026-10-07T12:00:00Z` for round times.
-- **The GitHub Actions API returns 404 unauthenticated** (repo likely private), so CI status hasn't been confirmed from here.
+- **The repo is private.** The GitHub API returns 404 unauthenticated (checked 2026-10-06), so CI run status can't be confirmed without a token. The PRD wants a *public* repo (DoD §26), so the user must make it public before submission.
+- **Two machines have worked on this repo.** Through 2026-10-06 ~03:00 UTC, all work happened on the user's Windows PC. That PC holds the `.env` files and runs the resolver. On 2026-10-06 the repo was also cloned to a Linux server (`/root/Stake/Stake`, Ubuntu 24.04, Node 22, hostname `vmi3498402`). That clone has **no `.env` files and no resolver running.** Don't assume paths or processes from one machine exist on the other.
+- **Pushing from the Linux server:** HTTPS has no credentials. The SSH keys in `~/.ssh` are per-repo deploy keys for other projects (Finance-hub, Kreatr, Weave). The default `id_ed25519` authenticates as Finance-hub, so plain `git push` over SSH fails with "Repository not found". A dedicated key, `~/.ssh/id_stake_ed25519`, was created for this repo. Once the user adds it as a **write** deploy key on GitHub, push with `GIT_SSH_COMMAND='ssh -i ~/.ssh/id_stake_ed25519 -o IdentitiesOnly=yes' git push git@github.com:Dotman-Bei/Stake.git main`.
 - **Serverless indexer:** `/api/activity` on Vercel rebuilds its in-memory event cache on every cold start (50k-block chunks from the deploy block). It gets slower as testnet blocks accumulate (~130k/day).
 
 ## Verified external facts (re-verify before mainnet: PRD §19)

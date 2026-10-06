@@ -4,6 +4,9 @@
 
 STAKE runs short-duration YES/NO markets on BOT price, crypto prices and measurable BOT Chain activity. You stake native BOT on a side, the market closes on a fixed deadline, an access-controlled resolver writes the outcome and its evidence on-chain, and winners claim their share of the pool. Market creation, positions, settlement, payout eligibility and claims all live in one verifiable contract on BOT Chain.
 
+> **Working on this repo, human or AI agent?** Start with [`handoff.md`](handoff.md), then [`prd.md`](prd.md),
+> [`architecture.md`](architecture.md), [`memory.md`](memory.md) and [`project-plan.md`](project-plan.md).
+
 ---
 
 ## Status

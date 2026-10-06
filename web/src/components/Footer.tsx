@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { DOCS_URL, FAUCET_URL, activeChain, addressUrl, explorerUrl, stakeAddress } from "@/lib/chains";
-import { StakeMark } from "./Icons";
+import { StakeWordmark } from "./Icons";
 
 export function Footer() {
   const contractLink = stakeAddress ? addressUrl(stakeAddress) : null;
@@ -8,8 +8,7 @@ export function Footer() {
     <footer className="footer">
       <div>
         <Link href="/" className="brand" aria-label="STAKE home">
-          <StakeMark className="brand-mark" />
-          <span className="brand-name">STAKE</span>
+          <StakeWordmark className="brand-name" />
         </Link>
         <p className="footer-desc">
           A fast, low-cost prediction market built for the BOT Chain ecosystem. Short YES/NO markets, staked in BOT,

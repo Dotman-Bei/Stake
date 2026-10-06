@@ -109,8 +109,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   -webkit-backdrop-filter: blur(16px);
 }
 .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--white); }
-.brand-mark { width: 29px; height: 29px; color: var(--accent); flex: none; }
-.brand-name { font-size: 24px; font-weight: 600; letter-spacing: 0; }
+/* desktop shows the wordmark (its split S is the mark); phones show the mark alone */
+.brand-mark { display: none; width: 28px; height: 28px; color: var(--g50); flex: none; }
+.brand-name { display: block; height: 24px; width: auto; color: var(--g50); flex: none; }
 
 .search-box {
   display: flex; align-items: center; gap: 12px;
@@ -356,7 +357,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   margin-left: -8px;
 }
 .avatar:first-child { margin-left: 0; }
-.avatar.mark { background: var(--bg); color: var(--accent); }
+.avatar.mark { background: var(--bg); color: var(--g50); }
 .avatar.mark svg { width: 16px; height: 16px; }
 .participants .more { font-size: 12px; color: var(--g200); }
 
@@ -587,6 +588,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .footer > div { padding: 36px 28px; border-right: 1px solid var(--rule); }
 .footer > div:last-child { border-right: 0; }
 .footer .brand { color: var(--g50); }
+.footer .brand-name { height: 26px; }
 .footer-desc { margin-top: 18px; max-width: 44ch; color: var(--g50); font-size: 13px; }
 .footer-meta { margin-top: 18px; font-size: 12px; color: var(--g100); }
 .footer h3 { font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--g100); margin-bottom: 14px; }
@@ -652,6 +654,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     padding: 0 16px; gap: 0 10px;
   }
   .brand-name { display: none; }
+  .brand-mark { display: block; }
   .topbar-actions { grid-column: 2; grid-row: 1; align-self: center; gap: 6px; }
   .search-box { grid-column: 1 / -1; grid-row: 2; height: 44px; align-self: start; }
   .full-label { display: none; }

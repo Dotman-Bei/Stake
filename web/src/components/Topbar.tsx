@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAccount, useBalance } from "wagmi";
 import { activeChain } from "@/lib/chains";
 import { bot } from "@/lib/format";
-import { SearchIcon, StakeMark } from "./Icons";
+import { SearchIcon, StakeMark, StakeWordmark } from "./Icons";
 import { WalletButton } from "./WalletButton";
 
 function SearchBox() {
@@ -58,7 +58,7 @@ export function Topbar({ onHowItWorks }: { onHowItWorks: () => void }) {
     <header className="topbar">
       <Link href="/" className="brand" aria-label="STAKE home">
         <StakeMark className="brand-mark" />
-        <span className="brand-name">STAKE</span>
+        <StakeWordmark className="brand-name" />
       </Link>
       <Suspense fallback={<div className="search-box" />}>
         <SearchBox />

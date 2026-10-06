@@ -13,13 +13,31 @@ const base = {
 
 type P = SVGProps<SVGSVGElement>;
 
-/** STAKE mark: a stake planted in the ground, diamond head. */
-export function StakeMark(props: P) {
+/*
+ * STAKE identity (see /brand): an S split by a diagonal slash into two point-symmetric
+ * halves. Upper half = YES (accent), lower half = NO (currentColor).
+ */
+const MARK_YES = "M0 0H24V5H5V9.5H12.5L9.5 14.5H0Z";
+const MARK_NO = "M24 24H0V19H19V14.5H11.5L14.5 9.5H24Z";
+const WORD_LETTERS =
+  "M29 0H49V5H41.5V24H36.5V5H29ZM54 0H74V24H69V14.5H59V24H54ZM59 5V9.5H69V5ZM79 0H84V9.5L93 0H99.5L89.5 12L99.5 24H93L84 14.5V24H79ZM104.5 0H124.5V5H109.5V9.5H121.5V14.5H109.5V19H124.5V24H104.5Z";
+
+/** The split-S mark. Pass `mono` to draw both halves in currentColor. */
+export function StakeMark({ mono = false, ...props }: P & { mono?: boolean }) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
-      <path d="M16 3 L22.5 9.5 L16 16 L9.5 9.5 Z" fill="currentColor" />
-      <path d="M16 16 V27" stroke="currentColor" strokeWidth="2.4" />
-      <path d="M6 28 H26" stroke="currentColor" strokeWidth="2.4" />
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d={MARK_YES} fill={mono ? "currentColor" : "var(--accent)"} />
+      <path d={MARK_NO} fill="currentColor" />
+    </svg>
+  );
+}
+
+/** The STAKE wordmark: split S + letters drawn on the same grid. */
+export function StakeWordmark(props: P) {
+  return (
+    <svg viewBox="0 0 124.5 24" role="img" aria-label="STAKE" {...props}>
+      <path d={MARK_YES} fill="var(--accent)" />
+      <path d={MARK_NO + WORD_LETTERS} fill="currentColor" fillRule="evenodd" />
     </svg>
   );
 }

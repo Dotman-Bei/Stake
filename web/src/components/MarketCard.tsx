@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 import {
   Outcome, STATUS_LABEL, TYPE_CODE, TYPE_LABEL, barsFor, marketStatus, settledPayout, toneFor, total, yesPercent,
   type Market, type Status,
@@ -15,8 +17,8 @@ export function MarketVisual({ market, large = false }: { market: Market; large?
   if (image) {
     return (
       <div className={`market-visual${large ? " lg" : ""}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image.src} alt={image.alt} loading="lazy" />
+        {/* next/image serves a resized WebP/AVIF at 1x/2x instead of the full-size PNG */}
+        <Image src={image.src} alt={image.alt} width={large ? 72 : 156} height={large ? 72 : 156} />
       </div>
     );
   }
@@ -53,7 +55,7 @@ export function signalFor(m: Market, status: Status): { verdict: string; tone: "
   return { verdict, tone: "", right: `${pct(yes)} yes pool` };
 }
 
-export function MarketCard({ market, now, participants, mySide }: {
+function MarketCardView({ market, now, participants, mySide }: {
   market: Market;
   now: number;
   participants: string[];
@@ -94,8 +96,7 @@ export function MarketCard({ market, now, participants, mySide }: {
         <div className="participants">
           <div className="avatars">
             {image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img className="avatar market-avatar" src={image.src} alt="" />
+              <Image className="avatar market-avatar" src={image.src} alt="" width={34} height={34} />
             ) : (
               <span className="avatar mark"><StakeMark /></span>
             )}
@@ -125,3 +126,6 @@ export function MarketCard({ market, now, participants, mySide }: {
     </article>
   );
 }
+
+/** Cards only re-render when their own data or displayed clock changes (see MarketGrid). */
+export const MarketCard = memo(MarketCardView);

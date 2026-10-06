@@ -36,6 +36,18 @@ export function EmptyState({ title, children }: { title: string; children?: Reac
   );
 }
 
+const EMPTY: string[] = [];
+
+/**
+ * Per-card clock: cards more than an hour from their next transition only need minute
+ * precision, so the shared 1s tick doesn't re-render the whole grid every second.
+ */
+function cardClock(m: Market, now: number): number {
+  if (!now) return 0;
+  const next = now < m.openTime ? m.openTime : m.closeTime;
+  return next - now > 3600 ? now - (now % 60) : now;
+}
+
 export function MarketGrid({ markets, now, participants, mine }: {
   markets: Market[];
   now: number;
@@ -45,7 +57,7 @@ export function MarketGrid({ markets, now, participants, mine }: {
   return (
     <section className="market-grid" aria-label="Markets">
       {markets.map((m) => (
-        <MarketCard key={m.id} market={m} now={now} participants={participants.get(m.id) ?? []} mySide={mine.get(m.id)} />
+        <MarketCard key={m.id} market={m} now={cardClock(m, now)} participants={participants.get(m.id) ?? EMPTY} mySide={mine.get(m.id)} />
       ))}
     </section>
   );

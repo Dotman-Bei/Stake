@@ -38,7 +38,7 @@ export function LeaderboardView() {
             <thead>
               <tr>
                 <th>Rank</th><th>Predictor</th><th className="num">Net winnings</th><th className="num">Wins</th>
-                <th className="num">Losses</th><th className="num">Win rate</th><th className="num">Volume</th><th className="num">Markets</th>
+                <th className="num opt">Losses</th><th className="num">Win rate</th><th className="num opt">Volume</th><th className="num opt">Markets</th>
               </tr>
             </thead>
             <tbody>
@@ -48,10 +48,10 @@ export function LeaderboardView() {
                   <td><Link href={`/profile?address=${r.address}`}>{shortAddress(r.address)}</Link>{r.address === me ? " (you)" : ""}</td>
                   <td className={`num ${r.net > 0n ? "pos" : r.net < 0n ? "neg" : ""}`}>{r.net > 0n ? "+" : r.net < 0n ? "−" : ""}{bot(r.net < 0n ? -r.net : r.net, 4)} BOT</td>
                   <td className="num">{r.wins}</td>
-                  <td className="num">{r.losses}</td>
+                  <td className="num opt">{r.losses}</td>
                   <td className="num">{pct(r.winRate * 100)}</td>
-                  <td className="num">{bot(r.volume)} BOT</td>
-                  <td className="num">{r.marketsEntered}</td>
+                  <td className="num opt">{bot(r.volume)} BOT</td>
+                  <td className="num opt">{r.marketsEntered}</td>
                 </tr>
               ))}
             </tbody>

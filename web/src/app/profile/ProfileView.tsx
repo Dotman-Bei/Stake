@@ -178,7 +178,7 @@ export function ProfileView() {
         <div className="ledger-wrap">
           <table className="ledger">
             <thead>
-              <tr><th>Market</th><th>Side</th><th className="num">Stake</th><th>Result</th><th className="num">Payout</th><th>Claim</th><th>Tx</th></tr>
+              <tr><th>Market</th><th>Side</th><th className="num">Stake</th><th>Result</th><th className="num">Payout</th><th>Claim</th><th className="opt">Tx</th></tr>
             </thead>
             <tbody>
               {user.positions.map((p) => {
@@ -196,7 +196,7 @@ export function ProfileView() {
                       {p.claimed ? (claimLink ? <a className="ext" href={claimLink} target="_blank" rel="noreferrer">Claimed</a> : "Claimed")
                         : p.result === "won" || p.result === "refund" ? <span className="accent-text">Unclaimed</span> : "—"}
                     </td>
-                    <td>{posLink ? <a className="ext" href={posLink} target="_blank" rel="noreferrer">{shortAddress(p.lastTx)}</a> : shortAddress(p.lastTx)}</td>
+                    <td className="opt">{posLink ? <a className="ext" href={posLink} target="_blank" rel="noreferrer">{shortAddress(p.lastTx)}</a> : shortAddress(p.lastTx)}</td>
                   </tr>
                 );
               })}

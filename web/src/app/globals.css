@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap');
-
 /* ═══════════════════════════════════════════════════════════════ tokens
    Design language: frontend.md ("Trench" system). Grey ramp lifted per §9 so
    every label and secondary line clears 4.5:1 on its ground. */
 :root {
-  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  /* fonts are self-hosted by next/font (layout.tsx), exposed as --font-mono / --font-serif */
+  --mono: var(--font-mono), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --serif: var(--font-serif), 'Instrument Serif', Georgia, 'Times New Roman', serif;
 
   /* neutrals */
   --black: #000;  --white: #fff;
@@ -418,8 +417,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .field .hint { font-size: 12px; color: var(--g400); }
 
 /* ═══════════════════════════════════════════════════════════════ detail (§6.10) */
-.detail { display: grid; grid-template-columns: minmax(0, 1fr) clamp(340px, 25vw, 430px); }
-.detail-main { border-right: 1px solid var(--rule); min-width: 0; }
+/* head + body share the left column; the action rail spans both rows on desktop,
+   and drops between head and body on narrower screens so staking stays near the top. */
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(340px, 25vw, 430px);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "head rail" "body rail";
+}
+.detail-head { grid-area: head; border-right: 1px solid var(--rule); min-width: 0; }
+.detail-body { grid-area: body; border-right: 1px solid var(--rule); min-width: 0; }
 .detail-hero { display: flex; gap: 22px; align-items: flex-start; padding: 28px; border-bottom: 1px solid var(--rule); }
 .detail-hero .card-tags { padding: 0 0 14px; }
 .detail-hero h1 { font-size: 34px; line-height: 1.28; font-weight: 600; color: var(--white); overflow-wrap: anywhere; }
@@ -441,7 +448,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .kv dd a { color: var(--accent); }
 .kv code { font-family: var(--mono); font-size: 13px; color: var(--g200); }
 
-.detail-rail { min-width: 0; }
+.detail-rail { grid-area: rail; min-width: 0; }
 .rail-sticky { position: sticky; top: calc(var(--topbar-h) + 0px); }
 .action-card { background: var(--deep-card); border-bottom: 1px solid var(--rule); }
 .stepper { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rule); }
@@ -604,10 +611,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (max-width: 1180px) {
-  .detail { grid-template-columns: 1fr; }
-  .detail-main { border-right: 0; }
+  .detail { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "head" "rail" "body"; }
+  .detail-head, .detail-body { border-right: 0; }
   .rail-sticky { position: static; }
-  .detail-rail { border-top: 1px solid var(--rule); }
+  .detail-rail { border-bottom: 1px solid var(--rule); }
+  .action-card { border-bottom: 0; }
 }
 
 @media (max-width: 1040px) {
@@ -715,4 +723,57 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .avatar.market-avatar { object-fit: contain; padding: 4px; background: var(--bg); }
 @media (max-width: 760px) {
   .market-visual, .card-body .fallback-visual { width: 132px; height: 132px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════ responsive refinements */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@supports (height: 100dvh) { .app-shell { min-height: 100dvh; } }
+
+/* wide screens: four columns so cells keep a sensible width (§12: column counts may change) */
+@media (min-width: 1500px) {
+  .market-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .market-grid > .market-card:nth-child(3n) { border-right: 1px solid var(--rule); }
+  .market-grid > .market-card:nth-child(4n) { border-right: 0; }
+}
+
+/* tablet: the four steps sit in a 2×2 block instead of a tall list */
+@media (min-width: 761px) and (max-width: 1040px) {
+  .hero-steps { grid-template-columns: 1fr 1fr; grid-template-rows: none; }
+  .hero-steps li { min-height: 60px; }
+  .hero-steps li:nth-child(odd) { border-right: 1px solid var(--rule); }
+  .hero-steps li:nth-child(n+3) { border-bottom: 0; }
+}
+
+@media (max-width: 760px) {
+  .hero-steps li { min-height: 48px; grid-template-columns: 44px 1fr; }
+  .hero-actions > * { flex: 1 1 auto; }
+  .ledger .opt { display: none; }
+  .ledger th, .ledger td { padding: 12px 10px; }
+  .ledger td.wrap { min-width: 150px; white-space: normal; }
+  .card-tags, .card-footer { padding-left: 16px; padding-right: 16px; }
+  .card-body { margin: 0 16px; padding: 16px; gap: 16px; }
+  .card-signal { padding: 0 16px; }
+  .detail-hero { gap: 14px; }
+  .action-body { padding: 18px 16px; }
+  .modal { max-height: calc(100dvh - 32px); }
+  .how-visual { min-height: 220px; }
+  .how-body { padding: 28px 16px 16px; }
+}
+
+@media (max-width: 380px) {
+  .hero h1 { font-size: 64px; }
+  .board-title { font-size: 30px; }
+  .detail-hero h1 { font-size: 22px; }
+  .empty-state h2 { font-size: 30px; }
+  .status-strip .value { font-size: 18px; }
+  .detail-stats .value { font-size: 16px; }
+  .card-footer { font-size: 12px; gap: 4px; }
+  .create-form { grid-template-columns: 1fr; }
+  .quick-amounts button { flex: 1; }
+}
+
+/* short landscape phones: two sticky bars would cover most of the screen */
+@media (max-height: 520px) and (orientation: landscape) {
+  .topbar, .market-tabs { position: static; }
+  .rail-sticky { position: static; }
 }

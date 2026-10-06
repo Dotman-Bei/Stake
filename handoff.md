@@ -3,7 +3,7 @@
 **Last updated:** 2026-10-06 (about 03:00 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
-> (rules and gotchas) → `project-plan.md`. Originals: `STAKE_PRD.md`, `frontend.md`.
+> (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
 
 ---
 

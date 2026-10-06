@@ -127,8 +127,8 @@ contracts/   Hardhat + Solidity 0.8.28 + OpenZeppelin 5
   scripts/seed-local.ts             local-chain sample data (refuses to run on any other chain)
   tasks/markets.ts                  operator CLI: stake:create · stake:cancel · stake:withdraw-fees
 resolver/    Node + viem settlement service (12 tests)
-web/         Next.js 15 + wagmi + viem frontend; design system per frontend.md
-STAKE_PRD.md, frontend.md           product and design specs
+web/         Next.js 15 + wagmi + viem frontend; design system in web/src/app/globals.css (see prd.md §6)
+STAKE_PRD.md                        original product spec
 ```
 
 ---

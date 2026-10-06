@@ -22,7 +22,7 @@ delete entries that become wrong. Last updated: 2026-10-06.
 - **Leaderboard = realized net P&L,** to avoid rewarding wash volume.
 - **Questions come only from templates.** `contracts/tasks/markets.ts` and `web/src/lib/templates.ts` duplicate the logic and **must stay in sync** (wording, `fmt()` thousands separators, `$` prefix on prices).
 - **Price sources:** CoinGecko and the BOT explorer stats API. Binance, Coinbase and Kraken were unreachable from the build machine (HTTP 000).
-- **Design system is `frontend.md`**, with approved deviations listed in `prd.md` §6. Accent is **`#5cd0ff`**, not lime. The second colour is **navy**, not teal. Logo is the **split S** (`brand/`). Use `.accent-text` (the old `.lime` class was renamed).
+- **Design system:** originally `frontend.md`, which the user removed on 2026-10-06 (read it with `git show f79fdc9:frontend.md`; code comments citing "frontend.md §x" refer to it). The **current** design is `prd.md` §6 plus `web/src/app/globals.css`; don't restore the file unless asked. Accent is **`#5cd0ff`**, not lime. The second colour is **navy**, not teal. Logo is the **split S** (`brand/`). Use `.accent-text` (the old `.lime` class was renamed).
 - **Next.js, not Vite**, because the PRD requires real routes.
 
 ## Gotchas (learned the hard way)

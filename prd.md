@@ -1,7 +1,8 @@
 # prd.md — STAKE product requirements (living summary)
 
 > **Source of truth:** [`STAKE_PRD.md`](STAKE_PRD.md) is the original, complete PRD and wins on any conflict
-> about *product* scope. [`frontend.md`](frontend.md) is the original design spec. This file condenses both,
+> about *product* scope. `frontend.md` (the original design spec) was **removed from the working tree by the user on 2026-10-06**; read it from history with `git show f79fdc9:frontend.md`.
+> The **current** design is section 6 below plus `web/src/app/globals.css`. This file condenses both originals,
 > records how each requirement is met, and logs every decision that refines or deviates from them.
 > Read this first, then open the originals for detail.
 
@@ -79,7 +80,7 @@ confirm BOT transaction → position recorded on-chain → market closes → mar
 
 ## 6. Design requirements (frontend.md) and approved deviations
 
-`frontend.md` describes the "Trench" terminal style: warm near-black canvas, IBM Plex Mono with Instrument Serif
+`frontend.md` (now only in git history: `git show f79fdc9:frontend.md`) described the "Trench" terminal style: warm near-black canvas, IBM Plex Mono with Instrument Serif
 as rare display contrast, square corners, 1px rules, a spreadsheet-like market grid, glass sticky top bar and
 tabs, a stepper modal, a second-colour footer, and only 160 ms state transitions.
 

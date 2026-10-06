@@ -10,7 +10,7 @@ Instructions for any AI coding agent working in this repo.
 4. [`memory.md`](memory.md): working agreements, decisions and gotchas (**read the rules**)
 5. [`project-plan.md`](project-plan.md): milestones and backlog
 
-Originals: [`STAKE_PRD.md`](STAKE_PRD.md) (product source of truth), [`frontend.md`](frontend.md) (design source of truth).
+Original product spec: [`STAKE_PRD.md`](STAKE_PRD.md). The original design spec `frontend.md` was removed by the user (history: `git show f79fdc9:frontend.md`); the current design lives in `prd.md` §6 and `web/src/app/globals.css`.
 
 **Non-negotiables (details in `memory.md`):**
 - Never commit or print private keys.

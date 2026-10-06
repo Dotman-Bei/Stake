@@ -13,6 +13,9 @@ import path from "node:path";
 type Template = "bot-price" | "crypto-price" | "chain-txs" | "address-txs" | "erc20-supply";
 
 const OPS: Record<string, string> = { ">": "above", ">=": "at or above", "<": "below", "<=": "at or below" };
+
+/** Human threshold for questions: 85400 → "85,400" (params keep the exact string). */
+const fmt = (t: string) => Number(t).toLocaleString("en-US", { maximumFractionDigits: 18 });
 const COUNT_OPS: Record<string, string> = { ">": "more than", ">=": "at least", "<": "fewer than", "<=": "at most" };
 const TYPE = { BotPrice: 0, CryptoPrice: 1, EcosystemMetric: 2, EcosystemEvent: 3 } as const;
 
@@ -35,6 +38,7 @@ task("stake:create", "Create a STAKE market from a template")
   .addParam("threshold", "Threshold value (USD price, count or token units)")
   .addOptionalParam("op", "Comparison: > >= < <=", ">")
   .addOptionalParam("minutes", "Minutes until close", 60, types.int)
+  .addOptionalParam("closeAt", "Exact close time, ISO 8601 UTC (e.g. 2026-10-07T12:00:00Z); overrides --minutes")
   .addOptionalParam("asset", "CoinGecko id for crypto-price (e.g. bitcoin, ethereum)", "bitcoin")
   .addOptionalParam("symbol", "Display symbol for crypto-price", "BTC")
   .addOptionalParam("target", "Address for address-txs / token for erc20-supply")
@@ -53,7 +57,10 @@ task("stake:create", "Create a STAKE market from a template")
     if (!(Number(args.threshold) >= 0)) throw new Error("threshold must be a non-negative number");
 
     const latest = await ethers.provider.getBlock("latest");
-    const closeTime = Number(latest!.timestamp) + Number(args.minutes) * 60;
+    const closeTime = args.closeAt
+      ? Math.floor(Date.parse(args.closeAt) / 1000)
+      : Number(latest!.timestamp) + Number(args.minutes) * 60;
+    if (!Number.isFinite(closeTime) || closeTime <= Number(latest!.timestamp) + 60) throw new Error("close time must be a valid time at least 1 minute ahead");
     const when = utcLabel(closeTime);
     const word = OPS[op];
     const t = args.threshold as string;
@@ -67,14 +74,14 @@ task("stake:create", "Create a STAKE market from a template")
     switch (template) {
       case "bot-price":
         marketType = TYPE.BotPrice;
-        question = `Will BOT be ${word} $${t} at ${when}?`;
+        question = `Will BOT be ${word} $${fmt(t)} at ${when}?`;
         source = "BOT Chain explorer stats API: scan.botchain.ai/api/v2/stats (coin_price)";
         description = `Resolves YES if the BOT/USD coin_price reported by the BOT Chain explorer, sampled at close, is ${word} ${t}. A sample taken more than 10 minutes after close resolves INVALID (refund).`;
         params = { kind: "price", feed: "blockscout", url: "https://scan.botchain.ai/api/v2/stats", field: "coin_price", op, threshold: t, maxDelaySec: 600 };
         break;
       case "crypto-price":
         marketType = TYPE.CryptoPrice;
-        question = `Will ${args.symbol} be ${word} $${t} at ${when}?`;
+        question = `Will ${args.symbol} be ${word} $${fmt(t)} at ${when}?`;
         source = `CoinGecko simple price API: ${args.asset}/usd`;
         description = `Resolves YES if CoinGecko's ${args.symbol}/USD price sampled at close is ${word} ${t}. A sample taken more than 10 minutes after close resolves INVALID (refund).`;
         params = { kind: "price", feed: "coingecko", id: args.asset, op, threshold: t, maxDelaySec: 600 };
@@ -89,7 +96,7 @@ task("stake:create", "Create a STAKE market from a template")
       case "address-txs":
         if (!args.target) throw new Error("--target address required");
         marketType = TYPE.EcosystemEvent;
-        question = `Will ${args.label || args.target} have sent ${COUNT_OPS[op]} ${t} transactions by ${when}?`;
+        question = `Will ${args.label || args.target} have sent ${COUNT_OPS[op]} ${fmt(t)} transactions by ${when}?`;
         source = `eth_getTransactionCount(${args.target}) on chain ${args.dataChain} at the first block at/after close`;
         description = `Resolves YES if the account nonce of ${args.target} on chain ${args.dataChain}, read at the first block whose timestamp is at or after close, is ${word} ${t}. Anyone can re-check this on-chain.`;
         params = { kind: "txCount", chainId: args.dataChain, address: args.target, op, threshold: t };
@@ -97,7 +104,7 @@ task("stake:create", "Create a STAKE market from a template")
       case "erc20-supply":
         if (!args.target) throw new Error("--target token address required");
         marketType = TYPE.EcosystemMetric;
-        question = `Will ${args.label || "the token"} supply be ${word} ${t} at ${when}?`;
+        question = `Will ${args.label || "the token"} supply be ${word} ${fmt(t)} at ${when}?`;
         source = `ERC-20 totalSupply() of ${args.target} on chain ${args.dataChain} at the first block at/after close`;
         description = `Resolves YES if totalSupply() of ${args.target} (${args.decimals} decimals) on chain ${args.dataChain}, read at the first block whose timestamp is at or after close, is ${word} ${t}. Anyone can re-check this on-chain.`;
         params = { kind: "erc20Supply", chainId: args.dataChain, token: args.target, decimals: args.decimals, op, threshold: t };

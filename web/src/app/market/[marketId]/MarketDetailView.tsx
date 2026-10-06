@@ -56,7 +56,7 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
 
   return (
     <div className="detail">
-      <div className="detail-main">
+      <div className="detail-head">
         <Back />
         <div className="detail-hero">
           <MarketVisual market={m} large />
@@ -92,7 +92,9 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
             <div className="sub">{utc(status === "upcoming" ? m.openTime : m.closeTime)}</div>
           </div>
         </section>
+      </div>
 
+      <div className="detail-body">
         <section className="section">
           <span className="label">Market</span>
           <p>{m.description || "No description."}</p>
@@ -151,14 +153,14 @@ export function MarketDetailView({ marketId }: { marketId: string }) {
           ) : (
             <div className="ledger-wrap">
               <table className="ledger">
-                <thead><tr><th>Predictor</th><th>Side</th><th className="num">Amount</th><th className="num">Block</th><th>Tx</th></tr></thead>
+                <thead><tr><th>Predictor</th><th>Side</th><th className="num">Amount</th><th className="num opt">Block</th><th>Tx</th></tr></thead>
                 <tbody>
                   {positions.map((p) => p.type === "position" && (
                     <tr key={`${p.tx}-${p.logIndex}`}>
                       <td><Link href={`/profile?address=${p.user}`}>{shortAddress(p.user)}</Link>{p.user === me ? " (you)" : ""}</td>
                       <td className={p.side === 1 ? "pos" : ""}>{p.side === 1 ? "YES" : "NO"}</td>
                       <td className="num">{bot(p.amount, 4)} BOT</td>
-                      <td className="num">{p.block}</td>
+                      <td className="num opt">{p.block}</td>
                       <td>{link(txUrl(p.tx), shortAddress(p.tx))}</td>
                     </tr>
                   ))}

@@ -23,7 +23,7 @@ code and live chain** in a second session on a Linux server (see §4).
 |---|---|---|
 | Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x8E5e…F779`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=25807866` |
 | **Resolver** | **The user's Windows PC only**, started as a background process by the previous agent session (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Stops if that session or the PC stops.** Not yet moved to a server. |
-| Repo clone (no secrets) | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22). Used for the 2026-10-06 verification session. | No `.env` files and no resolver here. A possible VPS for the resolver; **ask the user** before using it as one. |
+| Resolver-ready clone | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced) | The user added `resolver/.env` (mode 600) on 2026-10-06 ~10:50 UTC. Checked: the key maps to `0xAF9d…A8aA`, `isResolver` = true, 9.8 tBOT for gas, and an `npm run once` pass ran clean. **Not running continuously yet:** installing a systemd service was blocked by Claude Code's permission check (see §4). |
 | Local dev server | The user's PC, `http://localhost:3000` (`web/.env.local` points at testnet) | Optional; not needed now that Vercel is live |
 
 ## 3. Testnet markets (all 0.01–10 tBOT, 1% fee)
@@ -46,6 +46,12 @@ agents. The five docs already existed, so this session **verified** them instead
 - Live chain matches the docs. `eth_chainId` = 968. `marketCount` = 10. `/api/metrics`: 10 created, 4 refunded, 0 positions, 0 predictors.
 - Only `memory.md`, `handoff.md` and `project-plan.md` were edited. No application code was touched.
 - **Push from the server is blocked:** none of its SSH keys can access `Dotman-Bei/Stake`. A new key, `~/.ssh/id_stake_ed25519`, was generated. Once the user adds its `.pub` as a deploy key with **write access** (GitHub → repo Settings → Deploy keys), run the push command in `memory.md` → Gotchas. The commit exists locally until then.
+
+**Resolver move (2026-10-06 ~10:50 UTC):** the user chose this Linux server as the resolver host and added the key.
+Remaining work: run it continuously. The plan is `deploy/vps/stake-resolver.service` (systemd, `Restart=always`,
+`ConditionPathExists=.env`) plus `deploy/vps/setup.sh`. Claude Code's auto-mode permission check blocked
+writing/installing the service, so it needs the user's explicit permission rule, or the user runs the install themselves.
+After it starts here, **the user must stop the PC resolver** (never two resolvers with the same key).
 
 **Still open from the session before:** the question about **moving to a VPS**. The proposed plan:
 - Run the resolver on a VPS (Ubuntu 24.04, Node 22, systemd or pm2, auto-restart, NTP-synced clock).

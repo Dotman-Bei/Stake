@@ -22,7 +22,7 @@ code and live chain** in a second session on a Linux server (see §4).
 
 | Thing | Where | Notes |
 |---|---|---|
-| Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x5394eE5dD8b31e1058393918a305E6408d5117E2`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26019797`. **The user must set these two in Vercel and redeploy.** Until then the site still shows the old contract. |
+| Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x5394eE5dD8b31e1058393918a305E6408d5117E2`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26019797`. Updated in Vercel and redeployed 2026-10-07; `/api/metrics` confirmed the new contract with 10 markets at 12:22 UTC. |
 | Resolver (old) | The user's Windows PC (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Evidently stopped before 2026-10-06 15:51 UTC.** Don't restart it while the server one runs. |
 | **Resolver (live since 2026-10-07 11:39 UTC)** | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced) | The user added `resolver/.env` (mode 600) on 2026-10-06 ~10:50 UTC. Checked: the key maps to `0xAF9d…A8aA`, `isResolver` = true, 9.8 tBOT for gas, and an `npm run once` pass ran clean. Runs as a detached `nohup` process, logging to `/var/log/stake-resolver.log`. **No auto-restart yet** (see §4). |
 | Local dev server | The user's PC, `http://localhost:3000` (`web/.env.local` points at testnet) | Optional; not needed now that Vercel is live |
@@ -64,7 +64,7 @@ verified it (Blockscout auto-matched), backed up the old record to `contracts/de
 the resolver (it reads `deployments/968.json`), and created the 10 markets in §3. Deploy and create used the key in
 `resolver/.env` (the same wallet as owner and creator), passed as `DEPLOYER_PRIVATE_KEY` for the command only.
 `contracts/.env` does not exist on the server.
-**Pending (user):** update `NEXT_PUBLIC_STAKE_CONTRACT` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK` in Vercel, then redeploy.
+**Done:** the user updated the Vercel env and redeployed; the live site serves the new contract (checked 12:22 UTC).
 
 **Resolver now runs on the Linux server (2026-10-07 11:39 UTC).** At 11:37 UTC, #4 was found unresolved ~20 h after
 close, so the PC resolver had evidently stopped. With 23 min to the #5 close, the user asked to start the resolver here.
@@ -88,7 +88,6 @@ server above already meets the requirements and may be the answer to (a). Confir
 
 ## 5. Next steps (do in order)
 
-0. **The user updates Vercel env** (`NEXT_PUBLIC_STAKE_CONTRACT=0x5394eE5dD8b31e1058393918a305E6408d5117E2`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26019797`) and redeploys. Then check that `/api/metrics` reports the new contract with `marketsCreated: 10`.
 1. **Ask or confirm the VPS answers above**, then prepare in-repo:
    - `deploy/vps/setup.sh` (installs Node 22 and git, clones, `npm ci` in `resolver/`)
    - `deploy/vps/stake-resolver.service` (systemd, `Restart=always`)

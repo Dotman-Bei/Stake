@@ -45,7 +45,7 @@ agents. The five docs already existed, so this session **verified** them instead
 - Tests re-run from a clean `npm ci`: contracts **38 passing**, resolver typecheck clean and **12/12**, web **13/13**, and `next build` OK.
 - Live chain matches the docs. `eth_chainId` = 968. `marketCount` = 10. `/api/metrics`: 10 created, 4 refunded, 0 positions, 0 predictors.
 - Only `memory.md`, `handoff.md` and `project-plan.md` were edited. No application code was touched.
-- **Push from the server is blocked:** none of its SSH keys can access `Dotman-Bei/Stake`. A new key, `~/.ssh/id_stake_ed25519`, was generated. Once the user adds its `.pub` as a deploy key with **write access** (GitHub → repo Settings → Deploy keys), run the push command in `memory.md` → Gotchas. The commit exists locally until then.
+- **Pushing from the server works** via the deploy key `~/.ssh/id_stake_ed25519`, added on GitHub on 2026-10-07. The command is in `memory.md` → Gotchas.
 
 **Resolver now runs on the Linux server (2026-10-07 11:39 UTC).** At 11:37 UTC, #4 was found unresolved ~20 h after
 close, so the PC resolver had evidently stopped. With 23 min to the #5 close, the user asked to start the resolver here.
@@ -69,7 +69,6 @@ server above already meets the requirements and may be the answer to (a). Confir
 
 ## 5. Next steps (do in order)
 
-0. **Push the local doc commit** once the deploy key is added (see §4). Check with `git status -sb` (it shows `ahead 1`).
 1. **Ask or confirm the VPS answers above**, then prepare in-repo:
    - `deploy/vps/setup.sh` (installs Node 22 and git, clones, `npm ci` in `resolver/`)
    - `deploy/vps/stake-resolver.service` (systemd, `Restart=always`)
@@ -100,6 +99,7 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 - **2026-10-07:**
   - Found the PC resolver down.
   - Started the resolver on the Linux server; #4 resolved YES.
+  - Deploy key added on GitHub; doc commits pushed from the server.
 - **2026-10-06 (Linux server, ~03:30 UTC):**
   - Verified the context docs against code, tests and the live chain.
   - Recorded the two-machine setup and the push gotcha.

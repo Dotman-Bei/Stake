@@ -26,9 +26,9 @@ STAKE runs short-duration YES/NO markets on BOT price, crypto prices and measura
 
 | | |
 |---|---|
-| Contract | [`0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779`](https://scan.bohr.life/address/0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779#code) (source verified) |
+| Contract | [`0x5394eE5dD8b31e1058393918a305E6408d5117E2`](https://scan.bohr.life/address/0x5394eE5dD8b31e1058393918a305E6408d5117E2#code) (source verified; redeployed 2026-10-07 for a fresh market list. The previous contract `0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779` is retired.) |
 | Network | BOT Chain testnet, chain 968 |
-| Deploy block | 25807866 ([tx](https://scan.bohr.life/tx/0x45c8f30d06636f96d3b026ce61675f4462abd04d7e14bdab44df71d04a8e3629)) |
+| Deploy block | 26019797 ([tx](https://scan.bohr.life/tx/0xdda27430ad43c62a4724d58c79f2a7fb606c324973c17f25f5373b0318f1b50d)) |
 | Owner / creator / resolver / treasury | `0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA` (single wallet for testnet) |
 | Fee | 1% of the losing pool |
 

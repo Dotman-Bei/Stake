@@ -164,7 +164,7 @@ Templates generating these live in **two places that must stay in sync**: `contr
 |---|---|
 | BOT testnet | chain **968**, RPC `https://rpc.bohr.life`, explorer `https://scan.bohr.life` (Blockscout), faucet `https://faucet.botchain.ai/basic` |
 | BOT mainnet | chain **677**, RPC `https://rpc.botchain.ai`, WSS `wss://ws-rpc.botchain.ai`, explorer `https://scan.botchain.ai` (Multicall3 exists on mainnet only) |
-| Contract (testnet) | `0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779`, deploy block `25807866`, **source verified** |
+| Contract (testnet) | `0x5394eE5dD8b31e1058393918a305E6408d5117E2`, deploy block `26019797`, **source verified** (deployed 2026-10-07). Retired v1: `0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779` (block 25807866; record in `contracts/deployments/968-v1.json`) |
 | Roles (testnet) | owner = creator = resolver = treasury = `0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA` |
 | Frontend | https://stake-nine-umber.vercel.app (Vercel, root `web`, the three `NEXT_PUBLIC_*` vars above) |
 | Repo | https://github.com/Dotman-Bei/Stake, branch `main` |

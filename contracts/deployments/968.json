@@ -1,9 +1,9 @@
 {
   "network": "botTestnet",
   "chainId": 968,
-  "address": "0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779",
-  "deployBlock": 25807866,
-  "deployTx": "0x45c8f30d06636f96d3b026ce61675f4462abd04d7e14bdab44df71d04a8e3629",
+  "address": "0x5394eE5dD8b31e1058393918a305E6408d5117E2",
+  "deployBlock": 26019797,
+  "deployTx": "0xdda27430ad43c62a4724d58c79f2a7fb606c324973c17f25f5373b0318f1b50d",
   "owner": "0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA",
   "creator": "0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA",
   "resolver": "0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA",
@@ -16,5 +16,5 @@
     "0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA",
     100
   ],
-  "deployedAt": "2026-10-05T15:49:45.195Z"
+  "deployedAt": "2026-10-07T11:58:51.983Z"
 }

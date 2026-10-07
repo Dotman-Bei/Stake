@@ -28,7 +28,7 @@ Three packages, no monorepo tooling. Each has its own `package.json` and lockfil
 | Package | Stack | Runs where |
 |---|---|---|
 | `contracts/` | Hardhat 2.29, Solidity 0.8.28 (evm `paris`, optimizer 200), OpenZeppelin 5, ethers v6 tests | Deployed to BOT Chain |
-| `resolver/` | Node 22, TypeScript (ESM), viem 2, run with `tsx` | **Currently the user's Windows PC.** Should move to a VPS. |
+| `resolver/` | Node 22, TypeScript (ESM), viem 2, run with `tsx` | Linux server (Ubuntu 24.04) as the systemd service `stake-resolver` since 2026-10-07. See `deploy/vps/`. |
 | `web/` | Next.js 15.5 (App Router), React 19, wagmi 2, viem 2, TanStack Query 5, hand-written CSS (no Tailwind) | Vercel (root dir `web`) |
 
 Supporting folders: `brand/` (logo SVGs plus generator), `.github/workflows/ci.yml` (tests and build on push).
@@ -110,6 +110,8 @@ Templates generating these live in **two places that must stay in sync**: `contr
 | `test/` | 12 tests (`npm test`) |
 
 **Operational constraint:** sampled feeds need the resolver running **within 10 minutes of each close**.
+
+**Deployment:** `deploy/vps/setup.sh` installs `deploy/vps/stake-resolver.service`. The unit has `Restart=always`, `RestartSec=10` and `ConditionPathExists=resolver/.env`, and it starts at boot. Logs go to journald (`journalctl -u stake-resolver`).
 
 ---
 

@@ -1,0 +1,21 @@
+# systemd unit for the STAKE resolver. Installed by deploy/vps/setup.sh, which fills in @RESOLVER_DIR@.
+# Sampled-feed markets need the resolver within 10 minutes of close, so it restarts forever.
+[Unit]
+Description=STAKE resolver (settles markets on BOT Chain)
+Wants=network-online.target time-sync.target
+After=network-online.target time-sync.target
+# Without the key the resolver cannot start; don't crash-loop before the operator adds it.
+ConditionPathExists=@RESOLVER_DIR@/.env
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@RESOLVER_DIR@
+ExecStart=@RESOLVER_DIR@/node_modules/.bin/tsx src/index.ts
+Restart=always
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

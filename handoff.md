@@ -1,6 +1,6 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-07 (about 12:10 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-07 (about 12:30 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
@@ -24,7 +24,7 @@ code and live chain** in a second session on a Linux server (see §4).
 |---|---|---|
 | Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x5394eE5dD8b31e1058393918a305E6408d5117E2`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26019797`. Updated in Vercel and redeployed 2026-10-07; `/api/metrics` confirmed the new contract with 10 markets at 12:22 UTC. |
 | Resolver (old) | The user's Windows PC (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Evidently stopped before 2026-10-06 15:51 UTC.** Don't restart it while the server one runs. |
-| **Resolver (live since 2026-10-07 11:39 UTC)** | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced) | The user added `resolver/.env` (mode 600) on 2026-10-06 ~10:50 UTC. Checked: the key maps to `0xAF9d…A8aA`, `isResolver` = true, 9.8 tBOT for gas, and an `npm run once` pass ran clean. Runs as a detached `nohup` process, logging to `/var/log/stake-resolver.log`. **No auto-restart yet** (see §4). |
+| **Resolver** | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced), **systemd service `stake-resolver`** since 2026-10-07 12:25 UTC | `Restart=always` and starts at boot (a crash test restarted it in ~10 s). Key is in `resolver/.env` (mode 600; wallet `0xAF9d…A8aA`). Check with `systemctl status stake-resolver` and `journalctl -u stake-resolver -f`. |
 | Local dev server | The user's PC, `http://localhost:3000` (`web/.env.local` points at testnet) | Optional; not needed now that Vercel is live |
 
 ## 3. Testnet markets on `0x5394…17E2` (all 0.01–10 tBOT, 1% fee, created 2026-10-07 ~12:05 UTC)
@@ -66,6 +66,10 @@ the resolver (it reads `deployments/968.json`), and created the 10 markets in §
 `contracts/.env` does not exist on the server.
 **Done:** the user updated the Vercel env and redeployed; the live site serves the new contract (checked 12:22 UTC).
 
+**Resolver is now a systemd service (2026-10-07 12:25 UTC).** The user said "go on", so `deploy/vps/setup.sh` and
+`deploy/vps/stake-resolver.service` were added and installed. The interim nohup process was stopped by PID, then the
+service was started. A `kill -9` test confirmed auto-restart. The nohup notes below are history.
+
 **Resolver now runs on the Linux server (2026-10-07 11:39 UTC).** At 11:37 UTC, #4 was found unresolved ~20 h after
 close, so the PC resolver had evidently stopped. With 23 min to the #5 close, the user asked to start the resolver here.
 It runs as a detached `nohup` process (`cd resolver && nohup ./node_modules/.bin/tsx src/index.ts >> /var/log/stake-resolver.log 2>&1 &`).
@@ -88,14 +92,8 @@ server above already meets the requirements and may be the answer to (a). Confir
 
 ## 5. Next steps (do in order)
 
-1. **Ask or confirm the VPS answers above**, then prepare in-repo:
-   - `deploy/vps/setup.sh` (installs Node 22 and git, clones, `npm ci` in `resolver/`)
-   - `deploy/vps/stake-resolver.service` (systemd, `Restart=always`)
-   - a short README section with the steps
-   - a simple health signal (e.g. last-tick timestamp in the logs or a tiny HTTP endpoint)
-
-   The user puts the key into `resolver/.env` on the server themselves. **Once the VPS resolver runs, stop the PC resolver** (never two at once).
-2. **Keep the resolver up** through 2026-10-14 12:10 UTC (the last close). Make it a systemd service so it survives crashes and reboots.
+1. ~~VPS resolver~~ **Done** (systemd service on the Linux server). Optional: a health signal. The resolver logs nothing on a quiet tick, so a periodic heartbeat line or a tiny HTTP endpoint would help monitoring.
+2. **Watch the first settlements:** #0 at 2026-10-08 12:00 UTC, then #1–#3 the same day (`journalctl -u stake-resolver`).
 3. Optional but recommended: `setResolver(<new wallet>, true)` from the owner, update `resolver/.env` on the VPS, then `setResolver(old, false)`.
 4. Do a **real stake and claim on testnet** through the live site with a browser wallet (faucet tBOT), to confirm the full flow on-chain.
 5. Keep fresh markets open (`npx hardhat stake:create --network botTestnet ... --close-at <ISO>`), at times the resolver host is up.
@@ -116,6 +114,7 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 ## 7. Session log (newest first)
 
 - **2026-10-07:**
+  - Resolver installed as a systemd service (`deploy/vps/`); auto-restart verified.
   - Fresh contract `0x5394…17E2` deployed and verified.
   - 10 new markets created (5 ecosystem, 5 crypto, closing Oct 8–14).
   - Resolver switched to the new contract.

@@ -1,6 +1,6 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-06 (about 03:30 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-07 (about 11:45 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
@@ -22,8 +22,8 @@ code and live chain** in a second session on a Linux server (see §4).
 | Thing | Where | Notes |
 |---|---|---|
 | Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x8E5e…F779`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=25807866` |
-| **Resolver** | **The user's Windows PC only**, started as a background process by the previous agent session (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Stops if that session or the PC stops.** Not yet moved to a server. |
-| Resolver-ready clone | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced) | The user added `resolver/.env` (mode 600) on 2026-10-06 ~10:50 UTC. Checked: the key maps to `0xAF9d…A8aA`, `isResolver` = true, 9.8 tBOT for gas, and an `npm run once` pass ran clean. **Not running continuously yet:** installing a systemd service was blocked by Claude Code's permission check (see §4). |
+| Resolver (old) | The user's Windows PC (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Evidently stopped before 2026-10-06 15:51 UTC.** Don't restart it while the server one runs. |
+| **Resolver (live since 2026-10-07 11:39 UTC)** | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced) | The user added `resolver/.env` (mode 600) on 2026-10-06 ~10:50 UTC. Checked: the key maps to `0xAF9d…A8aA`, `isResolver` = true, 9.8 tBOT for gas, and an `npm run once` pass ran clean. Runs as a detached `nohup` process, logging to `/var/log/stake-resolver.log`. **No auto-restart yet** (see §4). |
 | Local dev server | The user's PC, `http://localhost:3000` (`web/.env.local` points at testnet) | Optional; not needed now that Vercel is live |
 
 ## 3. Testnet markets (all 0.01–10 tBOT, 1% fee)
@@ -31,7 +31,7 @@ code and live chain** in a second session on a Linux server (see §4).
 | # | Market | Close (UTC) | State | Needs resolver near close? |
 |---|---|---|---|---|
 | 0–3 | BOT, BTC, ETH, chain-tx markets | 2026-10-05 | **Refunded (INVALID):** the resolver ran hours late while the PC slept | — |
-| 4 | WBOT supply > 1,267,000 | 2026-10-06 15:51 | Open | No (at-block on-chain read; can settle late) |
+| 4 | WBOT supply > 1,267,000 | 2026-10-06 15:51 | **Resolved YES** 2026-10-07 11:39 UTC (observed 1,268,686; tx `0x3bb3394b…3561f`) | — |
 | 5 | BOT > $12.36 | 2026-10-07 12:00 | Open | **Yes (±10 min)** |
 | 6 | BTC > $86,000 | 2026-10-07 14:00 | Open | **Yes** |
 | 7 | ETH > $2,700 | 2026-10-07 15:00 | Open | **Yes** |
@@ -46,6 +46,12 @@ agents. The five docs already existed, so this session **verified** them instead
 - Live chain matches the docs. `eth_chainId` = 968. `marketCount` = 10. `/api/metrics`: 10 created, 4 refunded, 0 positions, 0 predictors.
 - Only `memory.md`, `handoff.md` and `project-plan.md` were edited. No application code was touched.
 - **Push from the server is blocked:** none of its SSH keys can access `Dotman-Bei/Stake`. A new key, `~/.ssh/id_stake_ed25519`, was generated. Once the user adds its `.pub` as a deploy key with **write access** (GitHub → repo Settings → Deploy keys), run the push command in `memory.md` → Gotchas. The commit exists locally until then.
+
+**Resolver now runs on the Linux server (2026-10-07 11:39 UTC).** At 11:37 UTC, #4 was found unresolved ~20 h after
+close, so the PC resolver had evidently stopped. With 23 min to the #5 close, the user asked to start the resolver here.
+It runs as a detached `nohup` process (`cd resolver && nohup ./node_modules/.bin/tsx src/index.ts >> /var/log/stake-resolver.log 2>&1 &`).
+It is **not a systemd service**: it does not restart on a crash or reboot. Check it with `pgrep -af "tsx src/index.ts"` and
+`tail -f /var/log/stake-resolver.log`. Stop it with `pkill -f "tsx src/index.ts"`. **Don't start the PC resolver again** while this one runs.
 
 **Resolver move (2026-10-06 ~10:50 UTC):** the user chose this Linux server as the resolver host and added the key.
 Remaining work: run it continuously. The plan is `deploy/vps/stake-resolver.service` (systemd, `Restart=always`,
@@ -91,6 +97,9 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 
 ## 7. Session log (newest first)
 
+- **2026-10-07:**
+  - Found the PC resolver down.
+  - Started the resolver on the Linux server; #4 resolved YES.
 - **2026-10-06 (Linux server, ~03:30 UTC):**
   - Verified the context docs against code, tests and the live chain.
   - Recorded the two-machine setup and the push gotcha.

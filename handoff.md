@@ -1,6 +1,6 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-07 (about 12:30 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-09 (about 10:15 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
@@ -33,11 +33,11 @@ Every market needs the resolver running near close, except the WBOT market (#5),
 
 | # | Market | Close (UTC) | Type |
 |---|---|---|---|
-| 0 | BOT > $12.40 | 2026-10-08 12:00 | BOT price (explorer) |
-| 1 | BTC > $84,000 | 2026-10-08 14:00 | Crypto (CoinGecko) |
-| 2 | ETH > $2,600 | 2026-10-08 16:00 | Crypto |
-| 3 | BOT Chain total txs > 22,470,000 | 2026-10-08 18:00 | Ecosystem (explorer) |
-| 4 | SOL > $120 | 2026-10-09 12:00 | Crypto |
+| 0 | BOT > $12.40 | 2026-10-08 12:00 | BOT price (explorer). **INVALID/refund** (observed 12.36 → NO, but no stakers) |
+| 1 | BTC > $84,000 | 2026-10-08 14:00 | Crypto (CoinGecko). **INVALID/refund** (observed 81,990 → NO, but no stakers) |
+| 2 | ETH > $2,600 | 2026-10-08 16:00 | Crypto. **INVALID/refund** (observed 2,437 → NO, but no stakers) |
+| 3 | BOT Chain total txs > 22,470,000 | 2026-10-08 18:00 | Ecosystem (explorer). **INVALID/refund** (observed 22,493,582 → YES, but no stakers) |
+| 4 | SOL > $120 | 2026-10-09 12:00 | Crypto. **First stake:** 1 tBOT NO from the owner wallet `0xAF9d…` (2026-10-09 ~10:00 UTC, tx `0x80ab0d88…6c31`). The owner can claim 1 tBOT back after settlement (NO wins → sole winner; YES wins → empty side → refund). |
 | 5 | WBOT supply > 1,270,000 | 2026-10-09 18:00 | Ecosystem (at-block) |
 | 6 | BNB > $780 | 2026-10-10 14:00 | Crypto (no image; fallback visual) |
 | 7 | XRP > $1.50 | 2026-10-11 14:00 | Crypto (no image; fallback visual) |
@@ -50,6 +50,12 @@ were left unresolved when the user switched contracts (no stakes, so nothing is 
 period, anyone can void them.
 
 ## 4. Where we stopped exactly
+
+**2026-10-09 ~10:15 UTC check.** The user reported "stake+claim, public repo, testers" done. Verified:
+- **Settlements:** the systemd resolver settled #0–#3 within ~15 s of each close. Every one became **INVALID** on-chain because nobody had staked. A transient RPC "HTTP request failed" burst on 2026-10-08 recovered by itself.
+- **Stake:** the first position is on #4, 1 tBOT NO, from the **owner wallet** (an operator test, not an external tester). **No claim yet:** #4 closes 2026-10-09 12:00 UTC. Next step: claim on `/market/4` after it settles, then confirm `payoutClaims: 1` in `/api/metrics`.
+- **Repo is still private:** `github.com/Dotman-Bei/Stake` returns 404 unauthenticated (checked 10:08 UTC). The user was told to recheck the visibility change.
+- **Testers:** `/api/metrics` shows 1 unique predictor, which is the owner. No external testers on-chain yet.
 
 **Latest session (2026-10-06 ~03:15–03:30 UTC, Linux server):** the user asked to make the repo portable between AI
 agents. The five docs already existed, so this session **verified** them instead of rewriting:
@@ -113,6 +119,10 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 
 ## 7. Session log (newest first)
 
+- **2026-10-09:**
+  - #0–#3 settled on time (all INVALID, no stakers).
+  - First stake on #4 (owner wallet).
+  - Repo still private.
 - **2026-10-07:**
   - Resolver installed as a systemd service (`deploy/vps/`); auto-restart verified.
   - Fresh contract `0x5394…17E2` deployed and verified.

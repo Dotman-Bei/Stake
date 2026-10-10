@@ -209,7 +209,8 @@ Import a Hardhat test account into your browser wallet and add the local network
    sudo ./deploy/vps/setup.sh                # npm ci + systemd unit (Restart=always, starts at boot)
    journalctl -u stake-resolver -f           # logs
    ```
-   Run exactly one resolver per key. The script refuses to start the service while another resolver process is running.
+   For BOT mainnet, also `cp deploy/vps/mainnet.env.example resolver/.env.mainnet` and rerun the script. It adds `stake-resolver-mainnet`.
+   Run exactly one resolver per key and chain. The script refuses to start the service while another resolver process is running.
 6. **Deploy the frontend** (e.g. Vercel, root `web/`) with `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK`.
 7. **Recruit 10+ real testers** (M2) and track activity through `/api/metrics`. Fix what they hit.
 8. **Mainnet:** repeat steps 3–6 with `botMainnet`. Start with low `maxStake` limits and raise them as usage proves stable.

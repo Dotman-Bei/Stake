@@ -1,6 +1,6 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-10 (about 11:20 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-10 (about 11:30 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
@@ -18,8 +18,8 @@
 - **Wallet balance:** about **0.0073 BOT** after deploy (0.0662) and 2 markets (0.0116 + 0.0248). The user **topped up 0.01 BOT**, so the balance is **0.0173 BOT** (checked 2026-10-10). That covers the two settlements (about 0.007) with room to spare.
 - **Pending user actions (in order):**
   1. ~~Top up 0.01 BOT~~ (done).
-  2. Push from the PC.
-  3. On the server: `git pull`, then edit `resolver/.env` (`STAKE_CHAIN_ID=677`, `STAKE_RPC_URL=https://rpc.botchain.ai`, `STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838`, `GAS_PRICE_GWEI=20`), `sudo systemctl restart stake-resolver`, and check that `journalctl -u stake-resolver -n 5` shows "watching 0xBf26… on chain 677".
+  2. ~~Push from the PC~~ (done; the gas-pin code is on the server).
+  3. ~~Mainnet resolver~~ **Done differently (server session, 2026-10-10 11:18 UTC):** a **separate** systemd service, `stake-resolver-mainnet`, reads `resolver/.env.mainnet` (chain 677, RPC, contract; the key falls back to `resolver/.env`; `GAS_PRICE_GWEI` defaults to 20). `resolver/.env` was **not** edited, and `stake-resolver` still watches testnet `0x5394…`. Both were restarted at 11:19 UTC on the gas-pin code (resolver typecheck and tests pass). Logs show "watching 0xBf26… on chain 677". **Ask the user** whether to stop the testnet service (`systemctl disable --now stake-resolver`), since testnet is retired.
   4. In Vercel, set `NEXT_PUBLIC_STAKE_NETWORK=mainnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26193710`, then redeploy.
 - **Deadline:** the resolver must be on mainnet before **2026-10-12 12:00 UTC** (#0 close).
 - **Still open:** split keys (owner off the server) and make the repo public.
@@ -42,6 +42,7 @@ code and live chain** in a second session on a Linux server (see §4).
 | Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x5394eE5dD8b31e1058393918a305E6408d5117E2`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26019797`. Updated in Vercel and redeployed 2026-10-07; `/api/metrics` confirmed the new contract with 10 markets at 12:22 UTC. |
 | Resolver (old) | The user's Windows PC (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Evidently stopped before 2026-10-06 15:51 UTC.** Don't restart it while the server one runs. |
 | **Resolver** | Linux server `/root/Stake/Stake` (Ubuntu 24.04, Node 22, NTP synced), **systemd service `stake-resolver`** since 2026-10-07 12:25 UTC | `Restart=always` and starts at boot (a crash test restarted it in ~10 s). Key is in `resolver/.env` (mode 600; wallet `0xAF9d…A8aA`). Check with `systemctl status stake-resolver` and `journalctl -u stake-resolver -f`. |
+| **Mainnet resolver** | Same Linux server, **systemd service `stake-resolver-mainnet`** since 2026-10-10 11:18 UTC | `resolver/.env.mainnet` (mode 600; template `deploy/vps/mainnet.env.example`). Key falls back to `resolver/.env`. Logs: `journalctl -u stake-resolver-mainnet -f`. |
 | Local dev server | The user's PC, `http://localhost:3000` (`web/.env.local` points at testnet) | Optional; not needed now that Vercel is live |
 
 ## 3. Testnet markets on `0x5394…17E2` (all 0.01–10 tBOT, 1% fee, created 2026-10-07 ~12:05 UTC)
@@ -136,6 +137,10 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 
 ## 7. Session log (newest first)
 
+- **2026-10-10 (server):**
+  - Added the `stake-resolver-mainnet` service (`deploy/vps/`).
+  - Both resolvers restarted on the gas-pin code.
+  - `*.swp` gitignored.
 - **2026-10-10:**
   - **Mainnet deploy and verify** (`0xBf26…D838`).
   - 2 mainnet markets.

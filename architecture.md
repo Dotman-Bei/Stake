@@ -111,7 +111,7 @@ Templates generating these live in **two places that must stay in sync**: `contr
 
 **Operational constraint:** sampled feeds need the resolver running **within 10 minutes of each close**.
 
-**Deployment:** `deploy/vps/setup.sh` installs `deploy/vps/stake-resolver.service`. The unit has `Restart=always`, `RestartSec=10` and `ConditionPathExists=resolver/.env`, and it starts at boot. Logs go to journald (`journalctl -u stake-resolver`).
+**Deployment:** `deploy/vps/setup.sh` installs `deploy/vps/stake-resolver.service`. The unit has `Restart=always`, `RestartSec=10` and `ConditionPathExists=resolver/.env`, and it starts at boot. Logs go to journald (`journalctl -u stake-resolver`). **Mainnet:** `stake-resolver-mainnet.service` adds `EnvironmentFile=resolver/.env.mainnet` (template `deploy/vps/mainnet.env.example`). systemd sets those variables first and `dotenv` doesn't override them, so any unset value (for example the key) falls back to `resolver/.env`.
 
 ---
 

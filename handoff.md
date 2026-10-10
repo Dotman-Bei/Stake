@@ -20,7 +20,7 @@
   1. ~~Top up 0.01 BOT~~ (done).
   2. ~~Push from the PC~~ (done; the gas-pin code is on the server).
   3. ~~Mainnet resolver~~ **Done differently (server session, 2026-10-10 11:18 UTC):** a **separate** systemd service, `stake-resolver-mainnet`, reads `resolver/.env.mainnet` (chain 677, RPC, contract; the key falls back to `resolver/.env`; `GAS_PRICE_GWEI` defaults to 20). `resolver/.env` was **not** edited, and `stake-resolver` still watches testnet `0x5394…`. Both were restarted at 11:19 UTC on the gas-pin code (resolver typecheck and tests pass). Logs show "watching 0xBf26… on chain 677". **Testnet service stopped and disabled** at the user's request (2026-10-10 ~11:24 UTC; `systemctl disable --now stake-resolver`). The unit file remains; only `stake-resolver-mainnet` runs now.
-  4. In Vercel, set `NEXT_PUBLIC_STAKE_NETWORK=mainnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26193710`, then redeploy.
+  4. ~~Vercel to mainnet~~ **Done 2026-10-10.** `/api/metrics` at 15:15 UTC showed chain 677, contract `0xBf26…D838`, 2 markets, 0 positions.
 - **Deadline:** the resolver must be on mainnet before **2026-10-12 12:00 UTC** (#0 close).
 - **Still open:** split keys (owner off the server) and make the repo public.
 
@@ -39,7 +39,7 @@ code and live chain** in a second session on a Linux server (see §4).
 
 | Thing | Where | Notes |
 |---|---|---|
-| Web app | Vercel | Always on. Env: `NEXT_PUBLIC_STAKE_NETWORK=testnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0x5394eE5dD8b31e1058393918a305E6408d5117E2`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26019797`. Updated in Vercel and redeployed 2026-10-07; `/api/metrics` confirmed the new contract with 10 markets at 12:22 UTC. |
+| Web app | Vercel | Always on. **Mainnet since 2026-10-10 ~15:10 UTC.** Env: `NEXT_PUBLIC_STAKE_NETWORK=mainnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838`, `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26193710`. |
 | Resolver (old) | The user's Windows PC (`resolver/`, `npx tsx src/index.ts`, logs to `%TEMP%/stake-resolver.log`) | **Evidently stopped before 2026-10-06 15:51 UTC.** Don't restart it while the server one runs. |
 | Resolver (testnet) | Linux server, systemd service `stake-resolver`: **stopped and disabled 2026-10-10** (testnet retired). It ran from 2026-10-07 12:25 UTC | `Restart=always` and starts at boot (a crash test restarted it in ~10 s). Key is in `resolver/.env` (mode 600; wallet `0xAF9d…A8aA`). Check with `systemctl status stake-resolver` and `journalctl -u stake-resolver -f`. |
 | **Mainnet resolver** | Same Linux server, **systemd service `stake-resolver-mainnet`** since 2026-10-10 11:18 UTC | `resolver/.env.mainnet` (mode 600; template `deploy/vps/mainnet.env.example`). Key falls back to `resolver/.env`. Logs: `journalctl -u stake-resolver-mainnet -f`. |
@@ -141,6 +141,7 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
   - Added the `stake-resolver-mainnet` service (`deploy/vps/`).
   - Both resolvers restarted on the gas-pin code.
   - Testnet resolver then stopped and disabled (user request).
+  - Vercel switched to mainnet and verified via `/api/metrics`.
   - `*.swp` gitignored.
 - **2026-10-10:**
   - **Mainnet deploy and verify** (`0xBf26…D838`).

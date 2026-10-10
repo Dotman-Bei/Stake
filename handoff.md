@@ -15,9 +15,9 @@
   - **#1** Will BTC be above $83,000 at 14:00 UTC on 2026-10-12?
 - **Testnet is retired** (user decision). Its markets #6–#9 on `0x5394…17E2` have no stakes.
 - **Gas:** `eth_gasPrice` swings 20↔50 gwei. Market #1 was accidentally sent at 50 gwei. Hardhat (`gasPrice`) and the resolver (`GAS_PRICE_GWEI`) are now **pinned to 20 gwei**. That code is committed on the user's PC and **must be pushed, then pulled on the server**, before the resolver settles mainnet.
-- **Wallet balance:** about **0.0073 BOT** after deploy (0.0662) and 2 markets (0.0116 + 0.0248). Two settlements at 20 gwei need about 0.007–0.0075 BOT, which is **too tight**. The user was asked to **top up 0.01 BOT**.
+- **Wallet balance:** about **0.0073 BOT** after deploy (0.0662) and 2 markets (0.0116 + 0.0248). The user **topped up 0.01 BOT**, so the balance is **0.0173 BOT** (checked 2026-10-10). That covers the two settlements (about 0.007) with room to spare.
 - **Pending user actions (in order):**
-  1. Top up 0.01 BOT.
+  1. ~~Top up 0.01 BOT~~ (done).
   2. Push from the PC.
   3. On the server: `git pull`, then edit `resolver/.env` (`STAKE_CHAIN_ID=677`, `STAKE_RPC_URL=https://rpc.botchain.ai`, `STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838`, `GAS_PRICE_GWEI=20`), `sudo systemctl restart stake-resolver`, and check that `journalctl -u stake-resolver -n 5` shows "watching 0xBf26… on chain 677".
   4. In Vercel, set `NEXT_PUBLIC_STAKE_NETWORK=mainnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26193710`, then redeploy.

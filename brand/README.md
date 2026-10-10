@@ -54,3 +54,15 @@ Flat colour only: no gradients, shadows or outlines.
 - **Clear space:** at least 5 units (one stroke width) on every side.
 - **Minimum size:** mark 16 px; wordmark 14 px tall.
 - **Never** rotate, skew, recolour the halves to anything but the pairs above, fill the slash gap, or set "STAKE" in a font next to the mark. Use the wordmark file.
+
+## Social (X / Twitter)
+
+Light-ground colours on white, built from the same mark and wordmark paths.
+
+| File | Use |
+|---|---|
+| `social/stake-x-avatar.svg` / `.png` | Profile picture, 400×400 (PNG at 1000×1000). Mark sized to sit inside the circular crop. |
+| `social/stake-x-header.svg` / `.png` | Header / cover, 1500×500 (PNG at 3000×1000). Content is kept clear of the bottom-left corner, where the avatar overlaps. |
+| `social/stake-mainnet-banner.svg` / `.png` | Reusable in-feed image for mainnet launch posts, 1600×900 (PNG at 3200×1800). |
+
+The header and banner load IBM Plex Mono from Google Fonts. Upload the PNGs, not the SVGs.

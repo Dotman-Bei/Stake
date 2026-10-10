@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="STAKE: officially launched on BOT Chain Mainnet"><title>STAKE · Mainnet</title>
+<defs>
+<style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=block');text{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace}</style>
+<pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse" x="5" y="5"><circle cx="15" cy="15" r="1.4" fill="#d6d6d6"/></pattern>
+<linearGradient id="fadeX" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.4" stop-color="#fff"/></linearGradient>
+<mask id="m"><rect x="900" width="700" height="620" fill="url(#fadeX)"/></mask>
+</defs>
+<rect width="1600" height="900" fill="#ffffff"/>
+<rect x="900" width="700" height="620" fill="url(#dots)" mask="url(#m)"/>
+<g transform="translate(120 112) scale(2.5)"><path d="M0 0H24V5H5V9.5H12.5L9.5 14.5H0Z" fill="#0077a8"/><path d="M24 24H0V19H19V14.5H11.5L14.5 9.5H24ZM29 0H49V5H41.5V24H36.5V5H29ZM54 0H74V24H69V14.5H59V24H54ZM59 5V9.5H69V5ZM79 0H84V9.5L93 0H99.5L89.5 12L99.5 24H93L84 14.5V24H79ZM104.5 0H124.5V5H109.5V9.5H121.5V14.5H109.5V19H124.5V24H104.5Z" fill="#0a0907" fill-rule="evenodd"/></g>
+<rect x="1218" y="112" width="262" height="44" fill="none" stroke="#0077a8" stroke-width="2"/>
+<rect x="1236" y="129" width="10" height="10" fill="#0077a8"/>
+<text x="1262" y="141" font-size="16" font-weight="600" letter-spacing="2.4" fill="#0077a8">LIVE · CHAIN 677</text>
+<text x="120" y="292" font-size="17" font-weight="500" letter-spacing="2.6" fill="#0077a8">ANNOUNCEMENT</text>
+<text x="120" y="378" font-size="70" font-weight="600" letter-spacing="-1" fill="#0a0907">Officially launched</text>
+<text x="120" y="466" font-size="70" font-weight="600" letter-spacing="-1" fill="#0a0907">on <tspan fill="#0077a8">BOT Chain Mainnet.</tspan></text>
+<text x="120" y="534" font-size="23" fill="#3d3d3d">Short YES/NO prediction markets, staked and settled in native BOT.</text>
+<g fill="none" stroke-width="6" stroke-linejoin="miter">
+<path d="M1128 400H1252" stroke="#0a0907"/>
+<path d="M1252 400L1300 320H1414" stroke="#0077a8"/>
+<path d="M1252 400L1300 480H1414" stroke="#0a0907"/>
+</g>
+<rect x="1114" y="393" width="14" height="14" fill="#0a0907"/>
+<rect x="1245" y="393" width="14" height="14" fill="#fff" stroke="#0a0907" stroke-width="4"/>
+<rect x="1414" y="309" width="22" height="22" fill="#0077a8"/>
+<rect x="1414" y="469" width="22" height="22" fill="#0a0907"/>
+<text x="1450" y="328" font-size="19" font-weight="600" letter-spacing="1" fill="#0077a8">YES</text>
+<text x="1450" y="488" font-size="19" font-weight="600" letter-spacing="1" fill="#0a0907">NO</text>
+<line x1="120" y1="640" x2="1480" y2="640" stroke="#e2e2e2" stroke-width="2"/>
+<g font-size="14" font-weight="500" letter-spacing="2" fill="#0077a8">
+<text x="120" y="700">CONTRACT · VERIFIED</text><text x="790" y="700">CHAIN ID</text><text x="990" y="700">FEE</text><text x="1260" y="700">SETTLEMENT</text></g>
+<g font-size="21" font-weight="500" fill="#0a0907">
+<text x="120" y="736">0xBf263D8333f21aA55504Adb6404b0a493fb9D838</text><text x="790" y="736">677</text><text x="990" y="736">1% losing pool</text><text x="1260" y="736">Native BOT</text></g>
+<text x="120" y="828" font-size="19" fill="#5a5a5a">stake-nine-umber.vercel.app</text>
+<text x="1480" y="828" font-size="19" fill="#5a5a5a" text-anchor="end">Source verified on scan.botchain.ai</text>
+</svg>

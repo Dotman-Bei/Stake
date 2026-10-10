@@ -27,6 +27,13 @@ const BOT_MAINNET = {
   explorer: env.BOT_MAINNET_EXPLORER ?? "https://scan.botchain.ai",
 };
 
+/**
+ * Fixed gas price for BOT Chain transactions. BOT Chain's base fee is 0 and blocks accept 20 gwei,
+ * but `eth_gasPrice` fluctuates (20 ↔ 50 gwei observed 2026-10-10), so following it can overpay 2.5×.
+ * Override with BOT_GAS_PRICE_GWEI if 20 gwei ever stops confirming.
+ */
+const gasPrice = Math.round(Number(env.BOT_GAS_PRICE_GWEI ?? 20) * 1e9);
+
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.28",
@@ -38,8 +45,8 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {},
     localhost: { url: "http://127.0.0.1:8545" },
-    botTestnet: { url: BOT_TESTNET.rpc, chainId: BOT_TESTNET.chainId, accounts },
-    botMainnet: { url: BOT_MAINNET.rpc, chainId: BOT_MAINNET.chainId, accounts },
+    botTestnet: { url: BOT_TESTNET.rpc, chainId: BOT_TESTNET.chainId, accounts, gasPrice },
+    botMainnet: { url: BOT_MAINNET.rpc, chainId: BOT_MAINNET.chainId, accounts, gasPrice },
   },
   // Both BOT Chain explorers run Blockscout, which accepts any API key.
   etherscan: {

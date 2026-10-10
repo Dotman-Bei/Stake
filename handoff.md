@@ -1,11 +1,28 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-09 (about 10:15 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-10 (about 11:20 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
 
 ---
+
+## 0. MAINNET LAUNCH (2026-10-10). Read this first
+
+- **Mainnet contract:** `0xBf263D8333f21aA55504Adb6404b0a493fb9D838` (chain **677**, deploy block **26193710**). Source verified on scan.botchain.ai. Record in `contracts/deployments/677.json`. Same wallet `0xAF9d…A8aA` for owner, creator, resolver and treasury (the user chose to launch before splitting keys). Fee 1%.
+- **Mainnet markets** (0.01–5 BOT per wallet):
+  - **#0** Will BOT be above $12.36 at 12:00 UTC on 2026-10-12?
+  - **#1** Will BTC be above $83,000 at 14:00 UTC on 2026-10-12?
+- **Testnet is retired** (user decision). Its markets #6–#9 on `0x5394…17E2` have no stakes.
+- **Gas:** `eth_gasPrice` swings 20↔50 gwei. Market #1 was accidentally sent at 50 gwei. Hardhat (`gasPrice`) and the resolver (`GAS_PRICE_GWEI`) are now **pinned to 20 gwei**. That code is committed on the user's PC and **must be pushed, then pulled on the server**, before the resolver settles mainnet.
+- **Wallet balance:** about **0.0073 BOT** after deploy (0.0662) and 2 markets (0.0116 + 0.0248). Two settlements at 20 gwei need about 0.007–0.0075 BOT, which is **too tight**. The user was asked to **top up 0.01 BOT**.
+- **Pending user actions (in order):**
+  1. Top up 0.01 BOT.
+  2. Push from the PC.
+  3. On the server: `git pull`, then edit `resolver/.env` (`STAKE_CHAIN_ID=677`, `STAKE_RPC_URL=https://rpc.botchain.ai`, `STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838`, `GAS_PRICE_GWEI=20`), `sudo systemctl restart stake-resolver`, and check that `journalctl -u stake-resolver -n 5` shows "watching 0xBf26… on chain 677".
+  4. In Vercel, set `NEXT_PUBLIC_STAKE_NETWORK=mainnet`, `NEXT_PUBLIC_STAKE_CONTRACT=0xBf263D8333f21aA55504Adb6404b0a493fb9D838` and `NEXT_PUBLIC_STAKE_DEPLOY_BLOCK=26193710`, then redeploy.
+- **Deadline:** the resolver must be on mainnet before **2026-10-12 12:00 UTC** (#0 close).
+- **Still open:** split keys (owner off the server) and make the repo public.
 
 ## 1. Current state, in one paragraph
 
@@ -119,6 +136,11 @@ Secrets are not in the repo. `contracts/.env` and `resolver/.env` exist only on 
 
 ## 7. Session log (newest first)
 
+- **2026-10-10:**
+  - **Mainnet deploy and verify** (`0xBf26…D838`).
+  - 2 mainnet markets.
+  - Gas pinned to 20 gwei after one 50 gwei transaction.
+  - Testnet retired.
 - **2026-10-09:**
   - #0–#3 settled on time (all INVALID, no stakers).
   - First stake on #4 (owner wallet).

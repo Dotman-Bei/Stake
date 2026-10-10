@@ -11,7 +11,7 @@ something done that wasn't verified.
 | M2 | Market engine: creation, staking, positions, state transitions, tests | ✅ Done | 38 contract tests |
 | M3 | Resolution and payout: resolver, settlement, payout, claims, security and failure-path tests | ✅ Done | 12 resolver tests; local end-to-end run (resolve → claim → double-claim rejected) |
 | M4 | Frontend product: 5 routes, wallet, stake and claim flows | ✅ Done | Live at https://stake-nine-umber.vercel.app |
-| M5 | Testing and mainnet: contract verification, testnet testing, security review, mainnet, production frontend | 🟡 Partial | Testnet deployed and verified. **No real positions yet. No mainnet. No external review.** |
+| M5 | Testing and mainnet: contract verification, testnet testing, security review, mainnet, production frontend | 🟡 Mostly done | Testnet and **mainnet deployed and verified** (mainnet `0xBf26…D838`, 2026-10-10, 2 markets). A testnet stake settled correctly. **No external security review. Keys not yet split.** |
 | M6 | Usage: ≥10 real testers, feedback, build content, docs | ❌ Not started | `/api/metrics` shows 0 predictors |
 
 ## Definition of Done (PRD §26)
@@ -30,7 +30,7 @@ something done that wasn't verified.
 - [x] README complete; threat model documented
 - [ ] Demo video (2–4 min)
 - [x] Public repo with real commit history (74 commits; the repo is currently **private** and must be made public)
-- [ ] Mainnet deployment, or a credible plan (plan exists in README; not executed)
+- [x] Mainnet deployment (2026-10-10: `0xBf263D8333f21aA55504Adb6404b0a493fb9D838`, verified)
 - [ ] Initial real-user testing
 
 ## Backlog (priority order)
@@ -44,6 +44,6 @@ something done that wasn't verified.
 7. **Off-chain metrics** (PRD §24 views, returning users): privacy-respecting analytics.
 8. **Demo video, build log, docs** (PRD §4.8).
 9. **Stronger BOT price source:** a DEX-pool at-block price adapter instead of the explorer `coin_price`.
-10. **Mainnet:** re-verify config, separate keys, multisig owner, low `maxStake`, deploy, verify, point Vercel at mainnet.
+10. ~~**Mainnet**~~ **Deployed 2026-10-10** (user chose to skip the key split for launch). Still to do: **separate keys** (owner off the server, dedicated resolver wallet), multisig owner, and raise `maxStake` only after a clean run.
 11. **Dependency audit:** `npm ci` in `web/` reports 25 vulnerabilities (23 moderate, 2 high) as of 2026-10-06. Review `npm audit` before mainnet. Don't run `npm audit fix --force` blindly: it can bump Next or wagmi majors.
 12. Later phases (PRD §23): community markets, more metrics, recurring micro-markets, reputation. Only after usage proves demand.

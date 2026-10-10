@@ -27,6 +27,9 @@ delete entries that become wrong. Last updated: 2026-10-06.
 
 ## Gotchas (learned the hard way)
 
+- **Pin the gas price on BOT Chain.** `eth_gasPrice` swings 20↔50 gwei while the base fee is 0 and 20 gwei confirms fine. Following the suggestion made one mainnet `createMarket` cost 0.0248 instead of 0.0099 BOT (2026-10-10). Hardhat now sends `gasPrice` 20 gwei (`BOT_GAS_PRICE_GWEI`) and the resolver pins `GAS_PRICE_GWEI=20`. Measured mainnet gas: deploy 3,311,671; `createMarket` ~500–580k (depends on text length); `resolve` ~160–190k.
+- **The user funds the mainnet wallet in small amounts on purpose** (lowest gas). Quote exact costs before spending, and leave a buffer for settlements.
+
 - **Import the injected connector from `@wagmi/core`**, not `wagmi/connectors`. The latter pulls optional SDKs (`@x402/evm`, Coinbase) and breaks `next build`.
 - **TypeScript is pinned to ~5.8** in `contracts/`. TS 7 breaks `ts-node` and Hardhat.
 - **The user's deployer key has no `0x` prefix.** Hardhat accepts it. The resolver normalizes it in `config.ts`; viem alone would crash.

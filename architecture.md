@@ -166,9 +166,11 @@ Templates generating these live in **two places that must stay in sync**: `contr
 |---|---|
 | BOT testnet | chain **968**, RPC `https://rpc.bohr.life`, explorer `https://scan.bohr.life` (Blockscout), faucet `https://faucet.botchain.ai/basic` |
 | BOT mainnet | chain **677**, RPC `https://rpc.botchain.ai`, WSS `wss://ws-rpc.botchain.ai`, explorer `https://scan.botchain.ai` (Multicall3 exists on mainnet only) |
-| Contract (testnet) | `0x5394eE5dD8b31e1058393918a305E6408d5117E2`, deploy block `26019797`, **source verified** (deployed 2026-10-07). Retired v1: `0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779` (block 25807866; record in `contracts/deployments/968-v1.json`) |
-| Roles (testnet) | owner = creator = resolver = treasury = `0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA` |
-| Frontend | https://stake-nine-umber.vercel.app (Vercel, root `web`, the three `NEXT_PUBLIC_*` vars above) |
+| **Contract (mainnet)** | `0xBf263D8333f21aA55504Adb6404b0a493fb9D838`, chain 677, deploy block `26193710`, **source verified** (deployed 2026-10-10). Record: `contracts/deployments/677.json`. Fee 1%; markets use 0.01–5 BOT limits |
+| Contract (testnet, retired 2026-10-10) | `0x5394eE5dD8b31e1058393918a305E6408d5117E2`, deploy block `26019797`, **source verified** (deployed 2026-10-07). Retired v1: `0x8E5e9B96efb446D3F3538971a5C7767a9DDcF779` (block 25807866; record in `contracts/deployments/968-v1.json`) |
+| Roles (mainnet and testnet) | owner = creator = resolver = treasury = `0xAF9d11E465511076C8A53fA06AE7Eb84FF40A8aA` |
+| Frontend | https://stake-nine-umber.vercel.app (Vercel, root `web`, the three `NEXT_PUBLIC_*` vars above). **Switching to mainnet** on 2026-10-10 (`NEXT_PUBLIC_STAKE_NETWORK=mainnet`) |
+| Gas | Pinned to **20 gwei**: `gasPrice` in `hardhat.config.ts` (`BOT_GAS_PRICE_GWEI`), `GAS_PRICE_GWEI` in the resolver. `eth_gasPrice` swings 20↔50 |
 | Repo | https://github.com/Dotman-Bei/Stake, branch `main` |
 
 **Secrets (gitignored, never commit):** `contracts/.env` (`DEPLOYER_PRIVATE_KEY`), `resolver/.env`

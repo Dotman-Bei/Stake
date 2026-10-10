@@ -20,7 +20,18 @@ STAKE runs short-duration YES/NO markets on BOT price, crypto prices and measura
 | M5 Testnet deployment and contract verification | **Testnet: deployed and verified** (see below). Mainnet: not yet ([plan below](#deployment-plan-testnet--mainnet)) |
 | M6 Real users | **Not started.** No usage has been claimed or simulated on BOT Chain |
 
-### BOT Chain testnet deployment
+### BOT Chain mainnet deployment
+
+| | |
+|---|---|
+| Contract | [`0xBf263D8333f21aA55504Adb6404b0a493fb9D838`](https://scan.botchain.ai/address/0xBf263D8333f21aA55504Adb6404b0a493fb9D838#code) (source verified) |
+| Network | BOT Chain mainnet, chain 677 |
+| Deploy block | 26193710 ([tx](https://scan.botchain.ai/tx/0x13e53bdb80f0a0765fa7d01ca8b17f622ed2135e4bfd6ccb01285e6c68abc8a1)) |
+| Launch limits | 0.01–5 BOT per wallet per market, 1% fee on the losing pool |
+
+The record is in [`contracts/deployments/677.json`](contracts/deployments/677.json). The testnet deployment below is retired.
+
+### BOT Chain testnet deployment (retired)
 
 **Live app: https://stake-nine-umber.vercel.app** (BOT Chain testnet; get test BOT from the [faucet](https://faucet.botchain.ai/basic))
 

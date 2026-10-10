@@ -59,9 +59,9 @@ confirm BOT transaction → position recorded on-chain → market closes → mar
 | §19 Config | verified from official sources | ✅ verified 2026-10-05 | `contracts/hardhat.config.ts`, `web/src/lib/chains.ts` |
 | §21 Data | on-chain authoritative; index = cache | ✅ | `web/src/lib/indexer.ts` |
 | §24 Metrics | on-chain usage metrics | ✅ on-chain metrics only | `GET /api/metrics` |
-| §26 DoD | deployed and verified contracts | ✅ testnet / ❌ mainnet | `contracts/deployments/968.json` |
+| §26 DoD | deployed and verified contracts | ✅ testnet and ✅ **mainnet** (2026-10-10) | `contracts/deployments/677.json`, `968.json` |
 | §26 DoD | frontend deployed | ✅ https://stake-nine-umber.vercel.app | Vercel |
-| §26 DoD | demo video, real users, mainnet | ❌ not done | see `project-plan.md` |
+| §26 DoD | demo video, real users | ❌ not done | see `project-plan.md` |
 
 ## 5. Product decisions that refine the PRD
 

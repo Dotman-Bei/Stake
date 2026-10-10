@@ -21,3 +21,6 @@ resolver/state.json
 Thumbs.db
 # local hardhat deployments
 contracts/deployments/31337.json
+# editor swap files (can hold .env contents)
+*.swp
+*.swo

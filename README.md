@@ -47,6 +47,20 @@ The full record is in [`contracts/deployments/968.json`](contracts/deployments/9
 
 ---
 
+### Operator test wallets (not users)
+
+These mainnet wallets belong to the STAKE operator. They were created on 2026-10-10 to test multi-wallet staking,
+payout splits and claims with real BOT, and were funded by the operator. **Their activity is internal QA, not user
+traction.** Exclude them when counting users.
+
+| Wallet | Address |
+|---|---|
+| test-1 | `0x0CD75360B0eD57A96aCD5b786cf5238e0cfE98e6` |
+| test-2 | `0xD07049F90b14a6ed4659fDe4B80B286d90ac9e5d` |
+| test-3 | `0x6F2E5F61453A86F93A1FC8F22f9c38bA48f9391B` |
+| test-4 | `0xfB6706530bBA884b0CE6298a2eA574Da1F007bf5` |
+| test-5 | `0x2Ec2ce01161eBCba68B9c8CE339E154064bA73bA` |
+
 ## How it works
 
 ```

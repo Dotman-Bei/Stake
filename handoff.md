@@ -24,6 +24,22 @@
 - **Deadline:** the resolver must be on mainnet before **2026-10-12 12:00 UTC** (#0 close).
 - **Still open:** split keys (owner off the server) and make the repo public.
 
+## 0b. Operator test wallets (2026-10-10)
+
+The user asked for wallets to "create proof of interaction" for the incubator. **Agreed only as openly labeled QA:**
+5 operator test wallets are listed in the README as **not users**. Never present their activity as user traction
+(PRD hard rule 7). Keys are in `/root/.stake-test-wallets.json` on the server (mode 600, outside the repo; never print
+or commit them). Plan: 6 minimum stakes (0.01 BOT each) on mainnet #0 and #1, gas pinned at 20 gwei. Status: waiting
+for the user to fund them.
+
+| Wallet | Address |
+|---|---|
+| test-1 | `0x0CD75360B0eD57A96aCD5b786cf5238e0cfE98e6` |
+| test-2 | `0xD07049F90b14a6ed4659fDe4B80B286d90ac9e5d` |
+| test-3 | `0x6F2E5F61453A86F93A1FC8F22f9c38bA48f9391B` |
+| test-4 | `0xfB6706530bBA884b0CE6298a2eA574Da1F007bf5` |
+| test-5 | `0x2Ec2ce01161eBCba68B9c8CE339E154064bA73bA` |
+
 ## 1. Current state, in one paragraph
 
 STAKE is fully built: contract, resolver and web app. All tests pass (contracts 38, resolver 12, web 13, plus

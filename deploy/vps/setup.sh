@@ -48,3 +48,16 @@ fi
 
 systemctl restart stake-resolver.service
 echo "Started. Follow the logs with: journalctl -u stake-resolver -f"
+
+# Optional second instance for BOT mainnet (settings in resolver/.env.mainnet; template deploy/vps/mainnet.env.example).
+MAINNET_UNIT=/etc/systemd/system/stake-resolver-mainnet.service
+sed "s|@RESOLVER_DIR@|$RESOLVER_DIR|g" "$REPO/deploy/vps/stake-resolver-mainnet.service" > "$MAINNET_UNIT"
+systemctl daemon-reload
+systemctl enable stake-resolver-mainnet.service
+if [ -f "$RESOLVER_DIR/.env.mainnet" ]; then
+  chmod 600 "$RESOLVER_DIR/.env.mainnet"
+  systemctl restart stake-resolver-mainnet.service
+  echo "Mainnet resolver started. Logs: journalctl -u stake-resolver-mainnet -f"
+else
+  echo "Mainnet unit installed but not started: cp $REPO/deploy/vps/mainnet.env.example $RESOLVER_DIR/.env.mainnet, then rerun."
+fi

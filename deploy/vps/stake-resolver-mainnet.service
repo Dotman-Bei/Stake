@@ -1,0 +1,25 @@
+# systemd unit for the STAKE resolver on BOT mainnet. Installed by deploy/vps/setup.sh, which fills in @RESOLVER_DIR@.
+# Runs beside stake-resolver.service (testnet). The two can share one wallet because nonces are per chain.
+#
+# Settings come from resolver/.env.mainnet (template: deploy/vps/mainnet.env.example). systemd sets them before
+# the resolver starts, and dotenv never overrides variables that are already set. So anything missing from
+# .env.mainnet, such as RESOLVER_PRIVATE_KEY, falls back to resolver/.env.
+[Unit]
+Description=STAKE resolver - BOT mainnet
+Wants=network-online.target time-sync.target
+After=network-online.target time-sync.target
+ConditionPathExists=@RESOLVER_DIR@/.env.mainnet
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@RESOLVER_DIR@
+EnvironmentFile=@RESOLVER_DIR@/.env.mainnet
+ExecStart=@RESOLVER_DIR@/node_modules/.bin/tsx src/index.ts
+Restart=always
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,4 +1,4 @@
-import { createPublicClient, createWalletClient, http, BaseError, ContractFunctionRevertedError } from "viem";
+import { createPublicClient, createWalletClient, http, parseGwei, BaseError, ContractFunctionRevertedError } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { stakeMarketsAbi } from "./abi";
 import { config } from "./config";
@@ -14,6 +14,9 @@ const publicClient = createPublicClient({ chain: config.chain, transport });
 const walletClient = createWalletClient({ chain: config.chain, transport, account });
 const sources = new Sources(config.dataRpcs);
 const contract = { address: config.contract, abi: stakeMarketsAbi } as const;
+const fees = config.gasPriceGwei > 0
+  ? { maxFeePerGas: parseGwei(String(config.gasPriceGwei)), maxPriorityFeePerGas: parseGwei(String(config.gasPriceGwei)) }
+  : {};
 
 const log = (...args: unknown[]) => console.log(new Date().toISOString(), ...args);
 
@@ -53,7 +56,7 @@ async function tick() {
 async function submit(id: bigint, outcome: 1 | 2 | 3, evidence: string) {
   const label = ["", "YES", "NO", "INVALID"][outcome];
   try {
-    const { request } = await publicClient.simulateContract({ ...contract, account, functionName: "resolve", args: [id, outcome, evidence] });
+    const { request } = await publicClient.simulateContract({ ...contract, account, functionName: "resolve", args: [id, outcome, evidence], ...fees });
     const hash = await walletClient.writeContract(request);
     const receipt = await publicClient.waitForTransactionReceipt({ hash });
     log(`#${id} resolved ${label} in ${hash} (${receipt.status}) evidence=${evidence}`);

@@ -58,5 +58,7 @@ export const config = {
   pollSeconds: Number(process.env.POLL_SECONDS ?? 15),
   /** Resolve INVALID this many seconds before the contract's 3-day grace window ends. */
   giveUpMarginSeconds: Number(process.env.GIVE_UP_MARGIN_SECONDS ?? 3600),
+  /** Fixed fee in gwei. BOT Chain base fee is 0 and eth_gasPrice swings 20↔50 gwei, so pin it (0 = node default). */
+  gasPriceGwei: Number(process.env.GAS_PRICE_GWEI ?? 20),
   dataRpcs,
 };

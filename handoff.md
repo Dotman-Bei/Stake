@@ -29,8 +29,13 @@
 The user asked for wallets to "create proof of interaction" for the incubator. **Agreed only as openly labeled QA:**
 5 operator test wallets are listed in the README as **not users**. Never present their activity as user traction
 (PRD hard rule 7). Keys are in `/root/.stake-test-wallets.json` on the server (mode 600, outside the repo; never print
-or commit them). Plan: 6 minimum stakes (0.01 BOT each) on mainnet #0 and #1, gas pinned at 20 gwei. Status: waiting
-for the user to fund them.
+or commit them). Plan: 6 minimum stakes (0.01 BOT each) on mainnet #0 and #1, gas pinned at 20 gwei. Status: **done 2026-10-10 ~15:37 UTC.** The user funded
+0.025 / 0.013 ×4 BOT, and all 6 stakes succeeded (gas 70.6k–87.7k each at 20 gwei):
+- #0 BOT > $12.36: test-1 YES `0x7eb56d6f…b7c1`, test-2 NO `0xe89a75bc…db38`, test-3 YES `0x6df300d8…5039` → pools YES 0.02 / NO 0.01
+- #1 BTC > $83,000: test-4 YES `0x7c2fb11d…1438`, test-5 NO `0x86eec77d…c8f5`, test-1 NO `0x3cd05083…dbb9` → pools YES 0.01 / NO 0.02
+
+Optional follow-up after the 2026-10-12 settlements: winners claim (exercises the payout split and fee). Each wallet
+has ~0.0013–0.0014 BOT left for gas.
 
 | Wallet | Address |
 |---|---|

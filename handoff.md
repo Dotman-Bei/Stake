@@ -1,11 +1,19 @@
 # handoff.md — where we stopped and what to do next
 
-**Last updated:** 2026-10-10 (about 11:30 UTC) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
+**Last updated:** 2026-10-16 (PC session) · **Branch:** `main` · **Repo:** https://github.com/Dotman-Bei/Stake
 
 > New agent? Read in this order: `handoff.md` (this file) → `prd.md` → `architecture.md` → `memory.md`
 > (rules and gotchas) → `project-plan.md`. Original PRD: `STAKE_PRD.md`. The original design spec `frontend.md` was removed by the user; see `git show f79fdc9:frontend.md`.
 
 ---
+
+## 0-urgent. 2026-10-16 status (PC session)
+
+- **Mainnet #0 and #1 were never settled.** No `resolve` transaction exists on `0xBf26…D838`, and the resolver wallet balance is unchanged (0.0173 BOT). Both 3-day windows have passed (#0 2026-10-15 12:00, #1 14:00 UTC), so `resolve` now reverts. **Anyone can call `voidStaleMarket`**, and then every staker (the 5 operator test wallets) claims a full refund. The 0.06 BOT is safe in the contract.
+  - **Root cause unknown from the PC.** The `stake-resolver-mainnet` service was set up on 2026-10-10. Check on the server: `journalctl -u stake-resolver-mainnet --since "2026-10-12 11:50" --until "2026-10-12 14:30" --no-pager` and `systemctl status stake-resolver-mainnet`.
+  - **Fix the cause before opening new markets.**
+- **Footer** now has a "Built on BOT Chain" bar: the official BOT Chain logo (`web/public/brand/botchain-logo.png`, from botchain.ai) plus links to the official website (`https://www.botchain.ai`) and the BOT Chain Explorer (`https://scan.botchain.ai`). The user requires both links. The footer wordmark also shows on phones again.
+- The PC's `web/.env.local` now points at mainnet.
 
 ## 0. MAINNET LAUNCH (2026-10-10). Read this first
 

@@ -35,6 +35,9 @@ export const localChain = defineChain({
 
 export const FAUCET_URL = "https://faucet.botchain.ai/basic";
 export const DOCS_URL = "https://dev-docs.botchain.ai/docs/Developers/quick-guide/";
+/** Official BOT Chain site and mainnet explorer (verified 2026-10-16: both return 200). */
+export const BOTCHAIN_SITE_URL = "https://www.botchain.ai";
+export const BOTCHAIN_EXPLORER_URL = "https://scan.botchain.ai";
 
 const network = process.env.NEXT_PUBLIC_STAKE_NETWORK ?? "testnet";
 const base = network === "mainnet" ? botMainnet : network === "local" ? localChain : botTestnet;

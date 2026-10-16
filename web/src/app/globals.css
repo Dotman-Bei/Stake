@@ -588,7 +588,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .footer > div { padding: 36px 28px; border-right: 1px solid var(--rule); }
 .footer > div:last-child { border-right: 0; }
 .footer .brand { color: var(--g50); }
-.footer .brand-name { height: 26px; }
+.footer .brand-name { display: block; height: 26px; }  /* footer always shows the wordmark */
 .footer-desc { margin-top: 18px; max-width: 44ch; color: var(--g50); font-size: 13px; }
 .footer-meta { margin-top: 18px; font-size: 12px; color: var(--g100); }
 .footer h3 { font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--g100); margin-bottom: 14px; }
@@ -779,4 +779,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (max-height: 520px) and (orientation: landscape) {
   .topbar, .market-tabs { position: static; }
   .rail-sticky { position: static; }
+}
+
+/* ═══════════════════════════════════════════════════════════════ footer: built on BOT Chain */
+.footer > .footer-chain {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 14px 28px;
+  padding: 20px 28px;
+  border-right: 0; border-bottom: 0;
+  border-top: 1px solid var(--rule);
+}
+.footer-chain .label { color: var(--g100); }
+.footer-chain-logo { display: inline-flex; align-items: center; min-height: 44px; transition: opacity var(--ease); }
+.footer-chain-logo:hover { opacity: .84; }
+.footer-chain-logo img { height: 28px; width: auto; }
+.footer-chain-links { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-left: auto; }
+.footer-chain-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--g50); transition: color var(--ease); }
+.footer-chain-links a:hover { color: var(--accent); }
+@media (max-width: 760px) {
+  .footer > .footer-chain { padding: 20px 16px; border-bottom: 0; }
+  .footer-chain-links { margin-left: 0; width: 100%; flex-direction: column; gap: 0; }
 }

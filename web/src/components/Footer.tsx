@@ -1,9 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
-import { DOCS_URL, FAUCET_URL, activeChain, addressUrl, explorerUrl, stakeAddress } from "@/lib/chains";
+import {
+  BOTCHAIN_EXPLORER_URL, BOTCHAIN_SITE_URL, DOCS_URL, FAUCET_URL, activeChain, addressUrl, explorerUrl, stakeAddress,
+} from "@/lib/chains";
 import { StakeWordmark } from "./Icons";
 
 export function Footer() {
   const contractLink = stakeAddress ? addressUrl(stakeAddress) : null;
+  // The explorer for the active network (mainnet in production); falls back to the mainnet explorer.
+  const chainExplorer = explorerUrl ?? BOTCHAIN_EXPLORER_URL;
   return (
     <footer className="footer">
       <div>
@@ -29,7 +34,6 @@ export function Footer() {
         <h3>Resources</h3>
         <ul>
           <li><a className="ext" href={DOCS_URL} target="_blank" rel="noreferrer">BOT Chain docs</a></li>
-          {explorerUrl && <li><a className="ext" href={explorerUrl} target="_blank" rel="noreferrer">Explorer</a></li>}
           {activeChain.testnet && activeChain.id !== 31337 && <li><a className="ext" href={FAUCET_URL} target="_blank" rel="noreferrer">Testnet faucet</a></li>}
           {contractLink && <li><a className="ext" href={contractLink} target="_blank" rel="noreferrer">STAKE contract</a></li>}
         </ul>
@@ -39,6 +43,17 @@ export function Footer() {
         <ul>
           <li><a className="ext" href="https://t.me/BOTChainNetwork" target="_blank" rel="noreferrer">BOT Chain Telegram</a></li>
         </ul>
+      </div>
+
+      <div className="footer-chain">
+        <span className="label">Built on</span>
+        <a href={BOTCHAIN_SITE_URL} target="_blank" rel="noreferrer" className="footer-chain-logo" aria-label="BOT Chain official website">
+          <Image src="/brand/botchain-logo.png" alt="BOT Chain" width={164} height={32} />
+        </a>
+        <nav className="footer-chain-links" aria-label="BOT Chain">
+          <a className="ext" href={BOTCHAIN_SITE_URL} target="_blank" rel="noreferrer">BOT Chain official website</a>
+          <a className="ext" href={chainExplorer} target="_blank" rel="noreferrer">BOT Chain Explorer</a>
+        </nav>
       </div>
     </footer>
   );
